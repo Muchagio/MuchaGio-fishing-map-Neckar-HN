@@ -1,9 +1,0 @@
-{
-  "name": "MuchaGio Fishing Map – Neckar HN",
-  "short_name": "Fishing Map",
-  "start_url": "./",
-  "display": "standalone",
-  "background_color": "#071016",
-  "theme_color": "#0b1217",
-  "description": "Private Referenzkarte für die bereitgestellten Hege6-Vereinskarten."
-}
