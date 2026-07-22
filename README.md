@@ -1,32 +1,21 @@
-# MuchaGio Fishing Map – Neckar HN
+# MuchaGio Fishing Map – Neckar Abschnitt 5
 
-Private interaktive Referenzkarte auf Basis der bereitgestellten Hege6-Vereinskarten.
+Private interaktive Referenzkarte für die vom Nutzer bereitgestellten Hege6-Vereinsunterlagen.
 
-## Aktueller Stand: v0.1
+## Version 0.2
 
-- OpenStreetMap-Grundkarte
-- Mobile und Desktop
-- Abschnitte Böckingen, Horkheim, Lauffen und Besigheim/Enz
-- Originale Referenzbilder direkt in der App
-- Orientierungslinien und Abschnittsmarker
-- PWA-Grundstruktur
+- moderne Leaflet-Kartenoberfläche
+- OpenStreetMap und Satellitenansicht
+- GPS-Standortfunktion
+- vier dokumentierte Teilbereiche
+- dokumentierte Grenzpunkte bei Lauffen und Besigheim
+- vollständige Original-Referenzbilder in der App
+- mobile Navigation und PWA-Grundlage
 
-> **Hinweis:** Die Orientierungslinien sind keine amtliche Grenzgeometrie. Maßgeblich bleiben Erlaubnisschein, Gewässerordnung und die in der App hinterlegten Vereinsunterlagen.
+## Wichtiger Hinweis
 
-## Auf GitHub Pages veröffentlichen
+Die Kartenmarker dienen nur zum Auffinden der dokumentierten Bereiche. Sie stellen keine amtliche oder vermessene Grenzgeometrie dar. Maßgeblich sind stets Erlaubnisschein, aktuelle Gewässerordnung und die eingeblendeten Originalunterlagen.
 
-1. Alle Dateien aus diesem Projekt in das Repository hochladen.
-2. In GitHub: **Settings → Pages**.
-3. Unter **Build and deployment**: `Deploy from a branch` wählen.
-4. Branch `main`, Ordner `/ (root)` wählen und speichern.
-5. Nach kurzer Wartezeit zeigt GitHub die öffentliche Pages-Adresse an.
+## GitHub Pages
 
-## Lokaler Test
-
-Wegen Browser-Sicherheitsregeln am besten über einen kleinen lokalen Server öffnen:
-
-```bash
-python3 -m http.server 8000
-```
-
-Dann `http://localhost:8000` öffnen.
+Unter **Settings → Pages** als Quelle `Deploy from a branch`, Branch `main`, Ordner `/ (root)` auswählen.
