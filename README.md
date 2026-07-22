@@ -1,21 +1,24 @@
-# MuchaGio Fishing Map – Neckar Abschnitt 5
+# MuchaGio Fishing Map – v0.3.1
 
-Private interaktive Referenzkarte für die vom Nutzer bereitgestellten Hege6-Vereinsunterlagen.
+Stabile Vollbild-Referenzkarte für Neckar Abschnitt 5.
 
-## Version 0.2
+## Update auf GitHub
 
-- moderne Leaflet-Kartenoberfläche
-- OpenStreetMap und Satellitenansicht
-- GPS-Standortfunktion
-- vier dokumentierte Teilbereiche
-- dokumentierte Grenzpunkte bei Lauffen und Besigheim
-- vollständige Original-Referenzbilder in der App
-- mobile Navigation und PWA-Grundlage
+1. ZIP entpacken.
+2. Den gesamten Inhalt direkt in das Repository hochladen.
+3. Gleichnamige Dateien überschreiben lassen.
+4. Committen.
+5. Danach die GitHub-Pages-Seite einmal mit `?v=031` öffnen oder einen Hard-Reload ausführen.
 
-## Wichtiger Hinweis
+## Inhalt
 
-Die Kartenmarker dienen nur zum Auffinden der dokumentierten Bereiche. Sie stellen keine amtliche oder vermessene Grenzgeometrie dar. Maßgeblich sind stets Erlaubnisschein, aktuelle Gewässerordnung und die eingeblendeten Originalunterlagen.
+- Vollbildkarte mit OpenStreetMap und optionalem Esri-Satellitenlayer
+- vier deutlich sichtbare Orientierungspunkte
+- GPS-Button
+- mobile Seitenleiste
+- alle bereitgestellten Vereinsunterlagen als Originalreferenzen
+- automatische Entfernung alter Service-Worker-Caches
 
-## GitHub Pages
+## Hinweis
 
-Unter **Settings → Pages** als Quelle `Deploy from a branch`, Branch `main`, Ordner `/ (root)` auswählen.
+Die Marker sind nur Orientierungspunkte. Exakte Angel-, Sperr- und Gewässergrenzen werden nicht aus den Markern abgeleitet; maßgeblich bleiben die eingebundenen Originalunterlagen und die aktuelle Gewässerordnung.
