@@ -1,31 +1,20 @@
-# MuchaGio Fishing Map – v0.4.0
+# MuchaGio Fishing Maps v0.5.0
 
-Erste langfristig strukturierte Orientierungsversion für Neckar Abschnitt 5.
+UI-Rebuild nach dem freigegebenen Dark-Map-Mockup.
 
 ## Neu
+- Desktop-Seitenleiste und mobile Layer-Schublade
+- Suche nach allen vier Abschnitten
+- Karten-/Satellitenumschaltung
+- eigene Zoom- und Standortsteuerung
+- Bottom-Navigation
+- überarbeitete Marker und Popups
+- Angelkorridore deutlich enger am Gewässerverlauf
+- Sperr-/Prüfzonen separat schaltbar
+- Originalunterlagen weiterhin direkt erreichbar
 
-- grobe grüne Angelkorridore direkt auf dem Wasser
-- rote Sperr-/Prüfbereiche rund um sensible Anlagen
-- getrennte Layer-Schalter für Angelbereiche, Prüfzonen und Marker
-- Marker näher am Wasser
-- Originalunterlagen und offizielle Hege6-Seiten direkt aus jedem Abschnitt erreichbar
-- zentrale Datenhaltung in `data/map-data.js`, damit weitere Gewässer später modular ergänzt werden können
-
-## Wichtiger Hinweis
-
-Die dargestellten Linien und Kreise sind bewusst als **ca.** gekennzeichnet. Sie dienen der schnellen Orientierung und sind keine amtlich vermessenen Grenzen. Maßgeblich bleiben die aktuellen Originalunterlagen, Verbotsschilder, gesetzlichen Schutzabstände und die Gewässerordnung.
+## Wichtig
+Die farbigen Bereiche sind eine digitale Orientierung und noch keine amtlich vermessenen Grenzen. Maßgeblich sind Hege6-Unterlagen, Gewässerordnung und Beschilderung vor Ort.
 
 ## Installation auf GitHub Pages
-
-1. ZIP entpacken.
-2. Den kompletten Inhalt des Ordners in das Repository hochladen.
-3. Gleichnamige Dateien überschreiben.
-4. Committen.
-5. Danach die Seite mit `?v=040` öffnen oder einen Hard-Reload ausführen.
-
-## Datenstruktur
-
-- `data/map-data.js`: Abschnitte, grobe Angelkorridore und Prüfzonen
-- `assets/reference/`: Originalunterlagen
-- `app.js`: Kartenlogik und UI
-- `styles.css`: Design
+Den gesamten Inhalt dieses Ordners in das Root-Verzeichnis des Repositories hochladen und vorhandene Dateien überschreiben.

@@ -5,73 +5,74 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#07151d">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta name="description" content="Orientierungskarte für Neckar Abschnitt 5 mit Hege6-Referenzunterlagen.">
-  <title>MuchaGio Fishing Map</title>
+  <meta name="description" content="MuchaGio Fishing Maps – Orientierungskarte für Neckar Abschnitt 5.">
+  <title>MuchaGio Fishing Maps</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css'">
-  <link rel="stylesheet" href="styles.css?v=0.4.0">
+  <link rel="stylesheet" href="styles.css?v=0.5.0">
 </head>
 <body>
   <div id="app">
-    <header class="topbar">
-      <button id="menuButton" class="round-button" type="button" aria-label="Menü öffnen">☰</button>
-      <div class="title-block">
-        <strong>MuchaGio Fishing Map</strong>
-        <span>Neckar Abschnitt 5 · Orientierung v0.4.0</span>
-      </div>
-      <button id="locateButton" class="round-button" type="button" aria-label="Standort anzeigen">⌖</button>
-    </header>
+    <div id="map"></div>
 
-    <main class="map-wrap">
-      <div id="map" aria-label="Interaktive Karte Neckar Abschnitt 5"></div>
-      <div id="loadError" class="load-error" hidden>
-        <strong>Die Kartenbibliothek konnte nicht geladen werden.</strong>
-        <span>Bitte die Seite neu laden. Die Originalunterlagen bleiben über das Menü erreichbar.</span>
-      </div>
-      <div class="legend-card" aria-label="Kartenlegende">
-        <div><span class="legend-line allowed"></span>Angelbereich ca.</div>
-        <div><span class="legend-dot warning"></span>Sperr-/Prüfbereich ca.</div>
-      </div>
-      <div class="map-note">Orientierung · vor Ort immer Originalunterlagen und Beschilderung prüfen</div>
-      <button id="sectionsButton" class="sections-button" type="button">Bereiche</button>
-    </main>
-
-    <aside id="drawer" class="drawer" aria-label="Abschnitte und Kartenoptionen">
-      <div class="drawer-head">
-        <div><span class="kicker">MUCHAGIO MAPS</span><h1>Neckar Abschnitt 5</h1></div>
-        <button id="closeDrawer" class="round-button" type="button" aria-label="Menü schließen">×</button>
-      </div>
-
-      <section class="notice"><strong>Wichtig:</strong> Die farbigen Linien und Kreise sind eine grobe digitale Orientierung, keine amtliche Grenzvermessung. Maßgeblich bleiben die aktuellen Vereinsunterlagen, Verbotsschilder und die Gewässerordnung.</section>
-
-      <section class="controls">
-        <div class="control-title">Basiskarte</div>
-        <div class="segmented">
-          <button class="segment active" data-base="street" type="button">Karte</button>
-          <button class="segment" data-base="satellite" type="button">Satellit</button>
-        </div>
-        <label><input id="allowedToggle" type="checkbox" checked> Angelbereiche (ca.)</label>
-        <label><input id="warningToggle" type="checkbox" checked> Sperr-/Prüfbereiche (ca.)</label>
-        <label><input id="markerToggle" type="checkbox" checked> Abschnittsmarker</label>
+    <aside id="sidebar" class="sidebar">
+      <div class="brand"><span class="brand-icon">◔</span><div><strong>MuchaGio</strong><small>Fishing Maps</small></div></div>
+      <section class="panel-section">
+        <h2>Kartenebenen</h2>
+        <label class="switch-row"><input id="allowedToggle" type="checkbox" checked><span class="switch"></span><span class="swatch green"></span>Angelbereiche (ca.)</label>
+        <label class="switch-row"><input id="warningToggle" type="checkbox" checked><span class="switch"></span><span class="swatch red"></span>Sperr-/Prüfbereiche</label>
+        <label class="switch-row"><input id="markerToggle" type="checkbox" checked><span class="switch"></span><span class="pin-mini">●</span>Abschnittsmarker</label>
+        <label class="switch-row disabled"><input type="checkbox" disabled><span class="switch"></span><span>Ⓟ</span>Zugänge / Parkplätze <em>folgt</em></label>
       </section>
-
-      <section>
-        <div class="section-heading"><h2>Abschnitte & Unterlagen</h2><button id="fitAll" class="link-button" type="button">Gesamtansicht</button></div>
-        <div id="sectionCards" class="cards"></div>
+      <section class="panel-section legend">
+        <h2>Legende</h2>
+        <div><span class="legend-line green"></span><p><strong>Angelbereich (ca.)</strong><small>Orientierung entlang des Gewässers</small></p></div>
+        <div><span class="legend-line red"></span><p><strong>Sperr-/Prüfbereich</strong><small>Angeln verboten oder vor Ort prüfen</small></p></div>
+        <div><span class="legend-line blue"></span><p><strong>Unsichere Grenze</strong><small>Noch nicht exakt digitalisiert</small></p></div>
+        <div class="notice"><b>ⓘ Orientierungsdarstellung</b><br>Maßgeblich sind die offiziellen Hege6-Unterlagen und die Beschilderung vor Ort.</div>
+      </section>
+      <section class="panel-section quicklinks">
+        <h2>Schnellzugriff</h2>
+        <a href="https://www.hege6.de/unser-gew%C3%A4sser/" target="_blank" rel="noopener">Hege6 – Unsere Gewässer ↗</a>
+        <button id="fitAll" type="button">Gesamtansicht</button>
       </section>
     </aside>
+
+    <header class="top-ui">
+      <button id="menuButton" class="mobile-menu" type="button" aria-label="Menü öffnen">☰</button>
+      <div class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="Suche Ort, Gewässer, Abschnitt…" autocomplete="off"><div id="searchResults" class="search-results"></div></div>
+      <div class="base-toggle"><button data-base="street" class="active">Karte</button><button data-base="satellite">Satellit</button></div>
+    </header>
+
+    <div class="right-tools">
+      <button id="locateButton" type="button" title="Mein Standort">⌖<small>Standort</small></button>
+      <div class="zoom-box"><button id="zoomIn" type="button">+</button><button id="zoomOut" type="button">−</button></div>
+      <button id="layerButton" type="button" title="Layer">▱<small>Layer</small></button>
+    </div>
+
+    <nav class="bottom-nav" aria-label="Hauptnavigation">
+      <button class="active" type="button">⌑<span>Karte</span></button>
+      <button id="docsButton" type="button">▤<span>Unterlagen</span></button>
+      <button id="rulesButton" type="button">ⓘ<span>Regeln</span></button>
+      <button type="button" disabled>⚙<span>Einstellungen</span></button>
+      <button id="infoButton" type="button">ⓘ<span>Info</span></button>
+    </nav>
+
+    <div id="loadError" class="load-error" hidden><strong>Karte konnte nicht geladen werden.</strong><span>Bitte neu laden. Die Originalunterlagen bleiben im Menü erreichbar.</span></div>
     <div id="backdrop" class="backdrop"></div>
   </div>
 
   <dialog id="referenceDialog">
-    <header class="dialog-head">
-      <div><span class="kicker">ORIGINALUNTERLAGEN</span><h2 id="dialogTitle"></h2><p id="dialogSubtitle"></p></div>
-      <button id="closeDialog" class="round-button" type="button" aria-label="Dialog schließen">×</button>
-    </header>
+    <header class="dialog-head"><div><span class="kicker">ORIGINALUNTERLAGEN</span><h2 id="dialogTitle"></h2><p id="dialogSubtitle"></p></div><button id="closeDialog" type="button">×</button></header>
     <div id="gallery" class="gallery"></div>
   </dialog>
 
+  <dialog id="infoDialog" class="text-dialog">
+    <header class="dialog-head"><div><span class="kicker">MUCHAGIO MAPS</span><h2>Hinweis zur Karte</h2></div><button data-close-dialog type="button">×</button></header>
+    <div class="dialog-copy"><p>Die digitalen Bereiche dienen als schnelle Orientierung am Wasser. Sie ersetzen keine offizielle Gewässerkarte.</p><p>Vor dem Angeln bitte immer die Hege6-Unterlagen, die Gewässerordnung und die Beschilderung vor Ort prüfen.</p></div>
+  </dialog>
+
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js'"></script>
-  <script src="data/map-data.js?v=0.4.0"></script>
-  <script src="app.js?v=0.4.0"></script>
+  <script src="data/map-data.js?v=0.5.0"></script>
+  <script src="app.js?v=0.5.0"></script>
 </body>
 </html>

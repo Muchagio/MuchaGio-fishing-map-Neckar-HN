@@ -2,14 +2,14 @@
 
 window.MUCHA_MAP_DATA = {
   meta: {
-    version: '0.4.0',
+    version: '0.5.0',
     updated: '2026-07-22',
     disclaimer: 'Orientierungsdarstellung. Maßgeblich sind die aktuellen Originalunterlagen, Verbotsschilder und die Gewässerordnung.'
   },
   sections: [
     {
-      id: 'boeckingen', number: '01', title: 'Oberwasser HN-Böckingen',
-      subtitle: 'km 113,53 bis km 114,11', center: [49.1478, 9.1955], zoom: 16,
+      id: 'boeckingen', number: '01', shortTitle: 'Böckingen', title: 'Oberwasser HN-Böckingen',
+      subtitle: 'km 113,53 bis km 114,11', center: [49.1485, 9.2014], zoom: 15,
       officialUrl: 'https://www.hege6.de/unser-gew%C3%A4sser/oberwasser-hn-b%C3%B6ckingen/',
       refs: [
         ['assets/reference/boeckingen-karte.png', 'Vereinskarte · Oberwasser HN-Böckingen'],
@@ -17,8 +17,8 @@ window.MUCHA_MAP_DATA = {
       ]
     },
     {
-      id: 'horkheim', number: '02', title: 'Schifffahrtskanal Horkheim',
-      subtitle: 'Rechtes und linkes Ufer mit unterschiedlichen Kilometergrenzen', center: [49.1118, 9.1767], zoom: 14,
+      id: 'horkheim', number: '02', shortTitle: 'Horkheim', title: 'Schifffahrtskanal Horkheim',
+      subtitle: 'Uferseiten und Kilometergrenzen laut Hege6-Unterlagen', center: [49.1125, 9.1789], zoom: 14,
       officialUrl: 'https://www.hege6.de/unser-gew%C3%A4sser/kanal-horkheim/',
       refs: [
         ['assets/reference/horkheim-01.png', 'Vereinskarte · Horkheim 1'],
@@ -28,14 +28,14 @@ window.MUCHA_MAP_DATA = {
       ]
     },
     {
-      id: 'lauffen', number: '03', title: 'Neckar bei Lauffen bis Besigheim',
-      subtitle: 'km 122,75 bis km 136,15', center: [49.0430, 9.1535], zoom: 12,
+      id: 'lauffen', number: '03', shortTitle: 'Lauffen', title: 'Neckar bei Lauffen bis Besigheim',
+      subtitle: 'km 122,75 bis km 136,15', center: [49.0475, 9.1470], zoom: 12,
       officialUrl: 'https://www.hege6.de/unser-gew%C3%A4sser/neckar-bei-lauffen/',
       refs: [['assets/reference/lauffen-karte.png', 'Vereinskarte · Neckar bei Lauffen']]
     },
     {
-      id: 'besigheim', number: '04', title: 'Mündung Enz bei Besigheim',
-      subtitle: 'Enzmündung, B27 und lokale Sperrbereiche beachten', center: [49.0002, 9.1438], zoom: 16,
+      id: 'besigheim', number: '04', shortTitle: 'Besigheim', title: 'Mündung Enz bei Besigheim',
+      subtitle: 'Enzmündung, B27 und lokale Sperrbereiche beachten', center: [49.0005, 9.1439], zoom: 16,
       officialUrl: 'https://www.hege6.de/unser-gew%C3%A4sser/m%C3%BCndung-enz-besigheim/',
       refs: [
         ['assets/reference/besigheim-01.png', 'Fotoreferenz · Enz / B27'],
@@ -45,41 +45,34 @@ window.MUCHA_MAP_DATA = {
       ]
     }
   ],
-
-  // Grobe Achsen entlang des Wassers. Keine amtlich vermessenen Ufergrenzen.
   allowedCorridors: [
     {
       id: 'boeckingen-allowed', sectionId: 'boeckingen', title: 'Angelbereich Böckingen (ca.)',
-      note: 'Orientierung zwischen Wehr/Schleuse und Böckinger Brücke.',
-      coordinates: [[49.1446,9.1938],[49.1460,9.1943],[49.1476,9.1951],[49.1492,9.1960],[49.1508,9.1967]]
+      note: 'Digitale Orientierung entlang des Neckars. Exakte Anfangs- und Endpunkte bitte mit der Originalkarte prüfen.',
+      coordinates: [[49.1444,9.1989],[49.1454,9.1995],[49.1465,9.2000],[49.1477,9.2008],[49.1489,9.2015],[49.1501,9.2020],[49.1512,9.2024]]
     },
     {
-      id: 'horkheim-right', sectionId: 'horkheim', title: 'Rechtes Ufer Horkheim (ca.)',
-      note: 'In Fließrichtung rechtes Ufer, offiziell km 116,92 bis km 119,98.',
-      coordinates: [[49.1260,9.1791],[49.1225,9.1787],[49.1185,9.1780],[49.1140,9.1772],[49.1095,9.1763],[49.1050,9.1754],[49.1013,9.1747]]
-    },
-    {
-      id: 'horkheim-left', sectionId: 'horkheim', title: 'Linkes Ufer Horkheim (ca.)',
-      note: 'In Fließrichtung linkes Ufer, offiziell km 117,7 bis km 119,84.',
-      coordinates: [[49.1207,9.1768],[49.1170,9.1761],[49.1130,9.1753],[49.1090,9.1745],[49.1051,9.1738],[49.1020,9.1732]]
+      id: 'horkheim-channel', sectionId: 'horkheim', title: 'Schifffahrtskanal Horkheim (ca.)',
+      note: 'Orientierung entlang des Kanals. Welche Uferseite freigegeben ist, muss abschnittsweise in den Hege6-Unterlagen geprüft werden.',
+      coordinates: [[49.1280,9.1811],[49.1252,9.1808],[49.1222,9.1804],[49.1192,9.1800],[49.1160,9.1795],[49.1128,9.1790],[49.1096,9.1785],[49.1064,9.1780],[49.1031,9.1775],[49.1002,9.1770]]
     },
     {
       id: 'lauffen-besigheim', sectionId: 'lauffen', title: 'Neckar Lauffen–Besigheim (ca.)',
-      note: 'Grober Verlauf des langen Hege6-Abschnitts; lokale Sperrbereiche separat prüfen.',
-      coordinates: [[49.0815,9.1560],[49.0760,9.1515],[49.0690,9.1460],[49.0615,9.1450],[49.0540,9.1500],[49.0470,9.1570],[49.0390,9.1620],[49.0310,9.1600],[49.0230,9.1555],[49.0150,9.1510],[49.0070,9.1470],[49.0015,9.1445]]
+      note: 'Der Verlauf wurde als Orientierung enger an den sichtbaren Neckar gelegt. Lokale Sperrbereiche und Uferfreigaben separat prüfen.',
+      coordinates: [[49.0890,9.1640],[49.0860,9.1580],[49.0820,9.1520],[49.0770,9.1470],[49.0720,9.1440],[49.0680,9.1460],[49.0640,9.1520],[49.0590,9.1580],[49.0540,9.1590],[49.0500,9.1550],[49.0460,9.1490],[49.0420,9.1430],[49.0370,9.1390],[49.0320,9.1370],[49.0270,9.1390],[49.0220,9.1440],[49.0170,9.1490],[49.0120,9.1510],[49.0070,9.1480],[49.0020,9.1450]]
     },
     {
       id: 'enz-mouth', sectionId: 'besigheim', title: 'Enz bei Besigheim (ca.)',
-      note: 'Kurzer Orientierungsabschnitt ab Mündung in Richtung B27; offizielle Karte prüfen.',
-      coordinates: [[49.0006,9.1438],[48.9997,9.1428],[48.9989,9.1415],[48.9982,9.1400]]
+      note: 'Kurzer Orientierungsabschnitt von der Mündung in Richtung B27. Die offizielle Hege6-Karte ist maßgeblich.',
+      coordinates: [[49.0007,9.1438],[49.0002,9.1429],[48.9997,9.1419],[48.9992,9.1408],[48.9987,9.1398]]
     }
   ],
-
   warningZones: [
-    {id:'boeckingen-lock', sectionId:'boeckingen', title:'Schleusen-/Wehrbereich prüfen', center:[49.1444,9.1935], radius:110, note:'Sicherheits- und Sperrabstände vor Ort sowie Originalkarte beachten.'},
-    {id:'horkheim-lock', sectionId:'horkheim', title:'Schleuse Horkheim – Sperrbereich prüfen', center:[49.1012,9.1744], radius:120, note:'Rund um Schleusen-, Wehr- und Betriebsanlagen können Verbote gelten.'},
-    {id:'horkheim-island', sectionId:'horkheim', title:'Betriebsgelände / Inselspitze', center:[49.1024,9.1728], radius:90, note:'Eingezäuntes Betriebsgelände und ausgeschilderte Bereiche nicht betreten.'},
-    {id:'besigheim-lock', sectionId:'besigheim', title:'Schleuse/Wehr Besigheim', center:[49.0021,9.1450], radius:120, note:'Lokale Schon- und Sperrgebiete sowie gesetzliche Abstände beachten.'},
-    {id:'enz-fishpass', sectionId:'besigheim', title:'Fischtreppe / Schonbereich prüfen', center:[48.9992,9.1416], radius:100, note:'Hege6 nennt Schutzabstände an Fischtreppen. Beschilderung vor Ort ist maßgeblich.'}
+    {id:'boeckingen-lock', sectionId:'boeckingen', title:'Schleusen-/Wehrbereich prüfen', center:[49.1444,9.1986], radius:90, note:'Sicherheits- und Sperrabstände vor Ort sowie Originalkarte beachten.'},
+    {id:'horkheim-north', sectionId:'horkheim', title:'Nördlicher Übergangsbereich prüfen', center:[49.1280,9.1810], radius:85, note:'Übergang, Uferseite und Beschilderung anhand der Originalunterlagen prüfen.'},
+    {id:'horkheim-lock', sectionId:'horkheim', title:'Schleuse Horkheim – Sperrbereich prüfen', center:[49.1003,9.1770], radius:110, note:'Rund um Schleusen-, Wehr- und Betriebsanlagen können Verbote gelten.'},
+    {id:'lauffen-weir', sectionId:'lauffen', title:'Wehr-/Schleusenbereich Lauffen prüfen', center:[49.0690,9.1460], radius:115, note:'Lokale Sperrflächen und Sicherheitsabstände sind in der Originalkarte und vor Ort zu prüfen.'},
+    {id:'besigheim-lock', sectionId:'besigheim', title:'Schleuse/Wehr Besigheim', center:[49.0021,9.1450], radius:105, note:'Lokale Schon- und Sperrgebiete sowie gesetzliche Abstände beachten.'},
+    {id:'enz-fishpass', sectionId:'besigheim', title:'Fischtreppe / Schonbereich prüfen', center:[48.9992,9.1413], radius:85, note:'Hege6 nennt Schutzabstände an Fischtreppen. Beschilderung vor Ort ist maßgeblich.'}
   ]
 };
