@@ -1,6 +1,6 @@
 'use strict';
 window.MUCHA_MAP_DATA={
- meta:{version:'0.9.1',buildDate:'2026-07-23',disclaimer:'Orientierungsdarstellung. Maßgeblich sind Originalunterlagen und Beschilderung.'},
+ meta:{version:'0.9.2',buildDate:'2026-07-23',disclaimer:'Orientierungsdarstellung. Maßgeblich sind Originalunterlagen und Beschilderung.'},
  sections:[
   {id:'boeckingen',number:'01',shortTitle:'Böckingen',title:'Oberwasser HN-Böckingen',subtitle:'km 113,53 bis km 114,11',center:[49.1485,9.2014],zoom:15,officialUrl:'https://www.hege6.de/unser-gew%C3%A4sser/oberwasser-hn-b%C3%B6ckingen/',refs:[['assets/reference/boeckingen-karte.png','Vereinskarte · Oberwasser HN-Böckingen'],['assets/reference/boeckingen-detail.png','Fotoreferenz · Schleuse Heilbronn']]},
   {id:'horkheim',number:'02',shortTitle:'Horkheim',title:'Schifffahrtskanal Horkheim',subtitle:'Uferseiten und Kilometergrenzen laut Hege6',center:[49.1125,9.1789],zoom:14,officialUrl:'https://www.hege6.de/unser-gew%C3%A4sser/kanal-horkheim/',refs:[['assets/reference/horkheim-01.png','Vereinskarte · Horkheim 1'],['assets/reference/horkheim-02.png','Vereinskarte · Horkheim 2'],['assets/reference/horkheim-03.png','Fotoreferenz · oberhalb der Schleuse'],['assets/reference/horkheim-04.png','Fotoreferenz · unterhalb der Schleuse']]},

@@ -8,7 +8,7 @@
   <meta name="description" content="MuchaGio Fishing Maps – Neckar Abschnitt 5.">
   <title>MuchaGio Fishing Maps</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css'">
-  <link rel="stylesheet" href="styles.css?v=0.9.1">
+  <link rel="stylesheet" href="styles.css?v=0.9.2-r1">
 </head>
 <body>
 <div id="app">
@@ -17,7 +17,7 @@
   <div class="brand-card glass">
     <div class="fish-mark">◔</div>
     <div><strong>MuchaGio</strong><small>Fishing Maps</small></div>
-    <span id="versionBadge" class="version-badge"></span>
+    <span id="versionBadge" class="version-badge">v0.9.2</span>
   </div>
 
   <aside id="sidebar" class="sidebar glass">
@@ -30,7 +30,7 @@
     <button class="accordion" type="button"><span>▱</span><span><b>Kartenansicht</b><small id="baseLabel">Satellit</small></span><span>⌄</span></button>
     <label class="layer-row green"><span class="layer-icon">⌁</span><span>Angelbereiche</span><input id="allowedToggle" type="checkbox" checked><i></i></label>
     <label class="layer-row red"><span class="layer-icon">◌</span><span>Geprüfte Bauwerke</span><input id="warningToggle" type="checkbox" checked><i></i></label>
-    <label class="layer-row purple"><span class="layer-icon">⌾</span><span>Ungeprüfte Punkte</span><input id="markerToggle" type="checkbox"><i></i></label>
+    <label class="layer-row purple"><span class="layer-icon">⌾</span><span>Prüfbereiche</span><input id="markerToggle" type="checkbox" checked><i></i></label>
     <button id="docsButton" class="accordion" type="button"><span>▧</span><span><b>Referenzkarten</b><small>Originalunterlagen</small></span><span>›</span></button>
   </aside>
 
@@ -93,15 +93,15 @@
 <dialog id="infoDialog">
   <header><div><span class="eyebrow">MUCHAGIO MAPS</span><h2>Info & Versionsstand</h2></div><button data-close-dialog type="button">×</button></header>
   <div class="dialog-copy">
-    <div class="version-grid"><div><small>Version</small><b id="appVersion"></b></div><div><small>Build</small><b id="buildDate"></b></div><div><small>Status</small><b>SILVER BETA</b></div></div>
-    <p><b>Neu:</b> Punktprüfung über echte OpenStreetMap-Bauwerksobjekte. Unverifizierte Abschnittsmittel- und Stadtmarker werden nicht mehr auf der Karte dargestellt.</p>
+    <div class="version-grid"><div><small>Version</small><b id="appVersion">v0.9.2</b></div><div><small>Build</small><b id="buildDate"></b></div><div><small>Status</small><b>SILVER BETA</b></div></div>
+    <p><b>Neu:</b> Alle Bauwerksmarker werden zusätzlich gegen die geladene Gewässergeometrie geprüft. Prüfbereiche liegen ausschließlich um verifizierte Bauwerke am Neckar; Abschnittsnummern und freie Stadtmarker werden nicht mehr dargestellt.</p>
     <p>Die Karte dient der Orientierung. Maßgeblich bleiben die offiziellen Hege6-Unterlagen, Beschilderungen und Bestimmungen vor Ort.</p>
     <p id="gisRuntimeStatus">GIS-Datenstatus wird geprüft …</p>
   </div>
 </dialog>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js'"></script>
-<script src="data/map-data.js?v=0.9.1"></script>
-<script src="app.js?v=0.9.1"></script>
+<script src="data/map-data.js?v=0.9.2-r1"></script>
+<script src="app.js?v=0.9.2-r1"></script>
 </body>
 </html>
