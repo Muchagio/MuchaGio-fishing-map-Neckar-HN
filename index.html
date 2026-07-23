@@ -8,25 +8,25 @@
   <meta name="description" content="MuchaGio Fishing Maps – Orientierungskarte für Neckar Abschnitt 5.">
   <title>MuchaGio Fishing Maps</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css'">
-  <link rel="stylesheet" href="styles.css?v=0.7.0">
+  <link rel="stylesheet" href="styles.css?v=0.8.0">
 </head>
 <body>
   <div id="app">
     <div id="map"></div>
 
     <aside id="sidebar" class="sidebar">
-      <div class="brand"><span class="brand-icon">◔</span><div><strong>MuchaGio</strong><small>Fishing Maps · v0.7.0</small></div></div>
+      <div class="brand"><span class="brand-icon">◔</span><div><strong>MuchaGio</strong><small>Fishing Maps · v0.8.0</small></div></div>
       <section class="panel-section">
         <h2>Kartenebenen</h2>
         <label class="switch-row"><input id="allowedToggle" type="checkbox" checked><span class="switch"></span><span class="swatch green"></span>Angelbereiche (ca.)</label>
-        <label class="switch-row"><input id="warningToggle" type="checkbox" checked><span class="switch"></span><span class="swatch red"></span>Sperr-/Prüfbereiche</label>
+        <label class="switch-row"><input id="warningToggle" type="checkbox" checked><span class="switch"></span><span class="swatch red"></span>Prüfpunkte / sensible Stellen</label>
         <label class="switch-row"><input id="markerToggle" type="checkbox" checked><span class="switch"></span><span class="pin-mini">●</span>Abschnittsmarker</label>
         <label class="switch-row disabled"><input type="checkbox" disabled><span class="switch"></span><span>Ⓟ</span>Zugänge / Parkplätze <em>folgt</em></label>
       </section>
       <section class="panel-section legend">
         <h2>Legende</h2>
         <div><span class="legend-line green"></span><p><strong>Angelbereich (ca.)</strong><small>Orientierung entlang des Gewässers</small></p></div>
-        <div><span class="legend-line red"></span><p><strong>Sperr-/Prüfbereich</strong><small>Angeln verboten oder vor Ort prüfen</small></p></div>
+        <div><span class="legend-line red"></span><p><strong>Prüfpunkt</strong><small>Schleuse, Wehr, Grenze oder Schutzstelle – Originalunterlagen prüfen</small></p></div>
         <div><span class="legend-line blue"></span><p><strong>Unsichere Grenze</strong><small>Noch nicht exakt digitalisiert</small></p></div>
         <div class="notice"><b>ⓘ Orientierungsdarstellung</b><br>Maßgeblich sind die offiziellen Hege6-Unterlagen und die Beschilderung vor Ort.</div>
       </section>
@@ -70,19 +70,19 @@
     <header class="dialog-head"><div><span class="kicker">MUCHAGIO MAPS</span><h2>Info & Versionsstand</h2></div><button data-close-dialog type="button">×</button></header>
     <div class="dialog-copy">
       <div class="version-card">
-        <div><span>Aktuelle Version</span><strong id="appVersion">v0.7.0</strong></div>
+        <div><span>Aktuelle Version</span><strong id="appVersion">v0.8.0</strong></div>
         <div><span>Build-Datum</span><strong id="buildDate">23.07.2026</strong></div>
         <div><span>GIS-Status</span><strong class="status-silver">SILVER BETA</strong></div>
       </div>
-      <p><strong>Neu in v0.7.0:</strong> Angelbereiche werden beim Laden aus echten OpenStreetMap-Wasserweg-Geometrien erzeugt. Freihandlinien über Land werden nicht mehr angezeigt.</p>
-      <p>Die Gewässerachse ist GIS-basiert. Anfang, Ende und erlaubte Uferseite bleiben bis zur vollständigen Georeferenzierung der Hege6-Unterlagen als Orientierung gekennzeichnet.</p>
+      <p><strong>Neu in v0.8.0:</strong> Die Satellitenansicht ist als bevorzugte Kartenansicht fest integriert und wird gespeichert. Zufällig wirkende Sperrkreise wurden durch präzise Prüfpunkte an Schleusen, Wehren, Grenzen und Schutzstellen ersetzt.</p>
+      <p>Die Gewässerachse ist GIS-basiert. Prüfpunkte sind bewusst keine flächigen Sperrzonen. Anfang, Ende und erlaubte Uferseite bleiben dort, wo die Hege6-Unterlagen keine Koordinaten nennen, als Orientierung gekennzeichnet.</p>
       <p>Vor dem Angeln bitte immer die Hege6-Unterlagen, die Gewässerordnung und die Beschilderung vor Ort prüfen.</p>
       <p id="gisRuntimeStatus" class="runtime-status">GIS-Datenstatus wird geprüft …</p>
     </div>
   </dialog>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js'"></script>
-  <script src="data/map-data.js?v=0.7.0"></script>
-  <script src="app.js?v=0.7.0"></script>
+  <script src="data/map-data.js?v=0.8.0"></script>
+  <script src="app.js?v=0.8.0"></script>
 </body>
 </html>

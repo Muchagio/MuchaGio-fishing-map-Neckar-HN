@@ -2,9 +2,9 @@
 
 window.MUCHA_MAP_DATA = {
   meta: {
-    version: '0.7.0',
+    version: '0.8.0',
     buildDate: '2026-07-23',
-    dataStatus: 'OSM waterway geometry at runtime; official section limits approximate',
+    dataStatus: 'OSM waterway geometry; official Hege6 references; review points are non-area point markers',
     disclaimer: 'Orientierungsdarstellung. Maßgeblich sind die aktuellen Originalunterlagen, Verbotsschilder und die Gewässerordnung.'
   },
   sections: [
@@ -77,12 +77,12 @@ window.MUCHA_MAP_DATA = {
     }
   ],
 
-  warningZones: [
-    {id:'boeckingen-lock', sectionId:'boeckingen', title:'Schleusen-/Wehrbereich prüfen', center:[49.1444,9.1986], radius:90, note:'Sicherheits- und Sperrabstände vor Ort sowie Originalkarte beachten.'},
-    {id:'horkheim-north', sectionId:'horkheim', title:'Nördlicher Übergangsbereich prüfen', center:[49.1280,9.1810], radius:85, note:'Übergang, Uferseite und Beschilderung anhand der Originalunterlagen prüfen.'},
-    {id:'horkheim-lock', sectionId:'horkheim', title:'Schleuse Horkheim – Sperrbereich prüfen', center:[49.1003,9.1770], radius:110, note:'Rund um Schleusen-, Wehr- und Betriebsanlagen können Verbote gelten.'},
-    {id:'lauffen-weir', sectionId:'lauffen', title:'Wehr-/Schleusenbereich Lauffen prüfen', center:[49.0690,9.1460], radius:115, note:'Lokale Sperrflächen und Sicherheitsabstände sind in der Originalkarte und vor Ort zu prüfen.'},
-    {id:'besigheim-lock', sectionId:'besigheim', title:'Schleuse/Wehr Besigheim', center:[49.0021,9.1450], radius:105, note:'Lokale Schon- und Sperrgebiete sowie gesetzliche Abstände beachten.'},
-    {id:'enz-fishpass', sectionId:'besigheim', title:'Fischtreppe / Schonbereich prüfen', center:[48.9992,9.1413], radius:85, note:'Hege6 nennt Schutzabstände an Fischtreppen. Beschilderung vor Ort ist maßgeblich.'}
+  reviewPoints: [
+    {id:'boeckingen-lock', sectionId:'boeckingen', title:'Schleuse Heilbronn / Wehr', center:[49.1444,9.1986], accuracy:'mittel', source:'Hege6-Karte + Kartenabgleich', note:'Sicherheits- und Sperrabstände vor Ort sowie Originalkarte beachten.'},
+    {id:'horkheim-north', sectionId:'horkheim', title:'Nördliche Abschnittsgrenze Horkheim', center:[49.1280,9.1810], accuracy:'niedrig', source:'Hege6-Karte, Grenze nur näherungsweise', note:'Übergang, Uferseite und Beschilderung anhand der Originalunterlagen prüfen.'},
+    {id:'horkheim-lock', sectionId:'horkheim', title:'Schleuse Horkheim', center:[49.1003,9.1770], accuracy:'mittel', source:'Hege6-Fotoreferenz + Kartenabgleich', note:'Rund um Schleusen-, Wehr- und Betriebsanlagen können Verbote gelten.'},
+    {id:'lauffen-weir', sectionId:'lauffen', title:'Wehr / Schleuse Lauffen', center:[49.0690,9.1460], accuracy:'mittel', source:'Hege6-Karte + Kartenabgleich', note:'Lokale Sperrflächen und Sicherheitsabstände sind in der Originalkarte und vor Ort zu prüfen.'},
+    {id:'besigheim-lock', sectionId:'besigheim', title:'Wehrbereich Besigheim', center:[49.0021,9.1450], accuracy:'mittel', source:'Hege6-Karte + Kartenabgleich', note:'Lokale Schon- und Sperrgebiete sowie gesetzliche Abstände beachten.'},
+    {id:'enz-fishpass', sectionId:'besigheim', title:'Fischtreppe / Schutzpunkt', center:[48.9992,9.1413], accuracy:'mittel', source:'Hege6-Unterlagen', note:'Hege6 nennt Schutzabstände an Fischtreppen. Beschilderung vor Ort ist maßgeblich.'}
   ]
 };

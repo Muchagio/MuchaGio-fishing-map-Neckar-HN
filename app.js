@@ -37,8 +37,9 @@ function setRuntimeStatus(text, state='loading') {
   el.dataset.state = state;
 }
 
-function popupHtml(title, note, sectionId, status) {
-  return `<div class="popup-badge ${status === 'warning' ? 'warning' : ''}">${status === 'allowed' ? 'GIS-ANGELBEREICH' : 'PRÜFBEREICH CA.'}</div><div class="popup-title">${title}</div><div class="popup-copy">${note}<br><strong>Final immer mit den Originalunterlagen abgleichen.</strong></div><button class="popup-button" data-section="${sectionId}">Unterlagen ansehen</button>`;
+function popupHtml(title, note, sectionId, status, meta='') {
+  const badge = status === 'allowed' ? 'GIS-ANGELBEREICH' : 'PRÜFPUNKT';
+  return `<div class="popup-badge ${status === 'warning' ? 'warning' : ''}">${badge}</div><div class="popup-title">${title}</div><div class="popup-copy">${note}${meta ? `<br><span class="popup-meta">${meta}</span>` : ''}<br><strong>Final immer mit den Originalunterlagen und der Beschilderung abgleichen.</strong></div><button class="popup-button" data-section="${sectionId}">Unterlagen ansehen</button>`;
 }
 
 const OVERPASS_ENDPOINTS = [
@@ -103,7 +104,9 @@ function initMap() {
   const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap-Mitwirkende' });
   const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19, attribution: 'Tiles &copy; Esri' });
   const labels = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19, opacity: .82 });
-  const map = L.map('map', { layers: [street], zoomControl: false, preferCanvas: true }).setView([49.073, 9.165], 11);
+  const savedBase = localStorage.getItem('muchagio-base-map') || 'satellite';
+  const initialLayers = savedBase === 'satellite' ? [satellite, labels] : [street];
+  const map = L.map('map', { layers: initialLayers, zoomControl: false, preferCanvas: true }).setView([49.073, 9.165], 11);
   window.appMap = map;
 
   const markerLayer = L.layerGroup().addTo(map);
@@ -118,10 +121,15 @@ function initMap() {
       .bindPopup(`<div class="popup-badge">${section.number}</div><div class="popup-title">${section.title}</div><div class="popup-copy">${section.subtitle}</div><button class="popup-button" data-section="${section.id}">Unterlagen ansehen</button>`);
   });
 
-  data.warningZones.forEach(zone => {
-    allBounds.extend(zone.center);
-    L.circle(zone.center, { radius:zone.radius, color:'#ff5361', weight:3, opacity:.98, fillColor:'#ff5361', fillOpacity:.2, dashArray:'8 6' }).addTo(warningLayer)
-      .bindPopup(popupHtml(zone.title, zone.note, zone.sectionId, 'warning'));
+  const reviewIcon = L.divIcon({ className:'', html:'<div class="review-pin"><span>!</span></div>', iconSize:[34,34], iconAnchor:[17,17] });
+  data.reviewPoints.forEach(point => {
+    allBounds.extend(point.center);
+    L.marker(point.center, {icon:reviewIcon, zIndexOffset:600}).addTo(warningLayer)
+      .bindTooltip(point.title, {direction:'top', offset:[0,-15]})
+      .bindPopup(popupHtml(point.title, point.note, point.sectionId, 'warning', `Genauigkeit: ${point.accuracy} · Quelle: ${point.source}`));
+    if (point.accuracy === 'niedrig') {
+      L.circle(point.center, {radius:35, color:'#ff8a63', weight:1, opacity:.75, fillOpacity:0, dashArray:'4 5', interactive:false}).addTo(warningLayer);
+    }
   });
 
   setRuntimeStatus('GIS-Wassergeometrien werden aus OpenStreetMap geladen …');
@@ -159,7 +167,9 @@ function initMap() {
   document.getElementById('allowedToggle').addEventListener('change', e => e.target.checked ? allowedLayer.addTo(map) : map.removeLayer(allowedLayer));
   document.getElementById('warningToggle').addEventListener('change', e => e.target.checked ? warningLayer.addTo(map) : map.removeLayer(warningLayer));
 
-  document.querySelectorAll('[data-base]').forEach(button => button.addEventListener('click', () => {
+  document.querySelectorAll('[data-base]').forEach(button => {
+    button.classList.toggle('active', button.dataset.base === savedBase);
+    button.addEventListener('click', () => {
     document.querySelectorAll('[data-base]').forEach(item => item.classList.remove('active'));
     button.classList.add('active');
     if (button.dataset.base === 'satellite') {
@@ -170,7 +180,9 @@ function initMap() {
       if (map.hasLayer(labels)) map.removeLayer(labels);
       street.addTo(map);
     }
-  }));
+    localStorage.setItem('muchagio-base-map', button.dataset.base);
+  });
+  });
 
   document.getElementById('zoomIn').addEventListener('click', () => map.zoomIn());
   document.getElementById('zoomOut').addEventListener('click', () => map.zoomOut());
