@@ -3,86 +3,105 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#07151d">
+  <meta name="theme-color" content="#071923">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta name="description" content="MuchaGio Fishing Maps – Orientierungskarte für Neckar Abschnitt 5.">
+  <meta name="description" content="MuchaGio Fishing Maps – Neckar Abschnitt 5.">
   <title>MuchaGio Fishing Maps</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css'">
-  <link rel="stylesheet" href="styles.css?v=0.8.0">
+  <link rel="stylesheet" href="styles.css?v=0.9.0">
 </head>
 <body>
-  <div id="app">
-    <div id="map"></div>
+<div id="app">
+  <div id="map"></div>
 
-    <aside id="sidebar" class="sidebar">
-      <div class="brand"><span class="brand-icon">◔</span><div><strong>MuchaGio</strong><small>Fishing Maps · v0.8.0</small></div></div>
-      <section class="panel-section">
-        <h2>Kartenebenen</h2>
-        <label class="switch-row"><input id="allowedToggle" type="checkbox" checked><span class="switch"></span><span class="swatch green"></span>Angelbereiche (ca.)</label>
-        <label class="switch-row"><input id="warningToggle" type="checkbox" checked><span class="switch"></span><span class="swatch red"></span>Prüfpunkte / sensible Stellen</label>
-        <label class="switch-row"><input id="markerToggle" type="checkbox" checked><span class="switch"></span><span class="pin-mini">●</span>Abschnittsmarker</label>
-        <label class="switch-row disabled"><input type="checkbox" disabled><span class="switch"></span><span>Ⓟ</span>Zugänge / Parkplätze <em>folgt</em></label>
-      </section>
-      <section class="panel-section legend">
-        <h2>Legende</h2>
-        <div><span class="legend-line green"></span><p><strong>Angelbereich (ca.)</strong><small>Orientierung entlang des Gewässers</small></p></div>
-        <div><span class="legend-line red"></span><p><strong>Prüfpunkt</strong><small>Schleuse, Wehr, Grenze oder Schutzstelle – Originalunterlagen prüfen</small></p></div>
-        <div><span class="legend-line blue"></span><p><strong>Unsichere Grenze</strong><small>Noch nicht exakt digitalisiert</small></p></div>
-        <div class="notice"><b>ⓘ Orientierungsdarstellung</b><br>Maßgeblich sind die offiziellen Hege6-Unterlagen und die Beschilderung vor Ort.</div>
-      </section>
-      <section class="panel-section quicklinks">
-        <h2>Schnellzugriff</h2>
-        <a href="https://www.hege6.de/unser-gew%C3%A4sser/" target="_blank" rel="noopener">Hege6 – Unsere Gewässer ↗</a>
-        <button id="fitAll" type="button">Gesamtansicht</button>
-      </section>
-    </aside>
-
-    <header class="top-ui">
-      <button id="menuButton" class="mobile-menu" type="button" aria-label="Menü öffnen">☰</button>
-      <div class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="Suche Ort, Gewässer, Abschnitt…" autocomplete="off"><div id="searchResults" class="search-results"></div></div>
-      <div class="base-toggle"><button data-base="street" class="active">Karte</button><button data-base="satellite">Satellit</button></div>
-    </header>
-
-    <div class="right-tools">
-      <button id="locateButton" type="button" title="Mein Standort">⌖<small>Standort</small></button>
-      <div class="zoom-box"><button id="zoomIn" type="button">+</button><button id="zoomOut" type="button">−</button></div>
-      <button id="layerButton" type="button" title="Layer">▱<small>Layer</small></button>
-    </div>
-
-    <nav class="bottom-nav" aria-label="Hauptnavigation">
-      <button class="active" type="button">⌑<span>Karte</span></button>
-      <button id="docsButton" type="button">▤<span>Unterlagen</span></button>
-      <button id="rulesButton" type="button">ⓘ<span>Regeln</span></button>
-      <button type="button" disabled>⚙<span>Einstellungen</span></button>
-      <button id="infoButton" type="button">ⓘ<span>Info</span></button>
-    </nav>
-
-    <div id="loadError" class="load-error" hidden><strong>Karte konnte nicht geladen werden.</strong><span>Bitte neu laden. Die Originalunterlagen bleiben im Menü erreichbar.</span></div>
-    <div id="backdrop" class="backdrop"></div>
+  <div class="brand-card glass">
+    <div class="fish-mark">◔</div>
+    <div><strong>MuchaGio</strong><small>Fishing Maps</small></div>
+    <span id="versionBadge" class="version-badge"></span>
   </div>
 
-  <dialog id="referenceDialog">
-    <header class="dialog-head"><div><span class="kicker">ORIGINALUNTERLAGEN</span><h2 id="dialogTitle"></h2><p id="dialogSubtitle"></p></div><button id="closeDialog" type="button">×</button></header>
-    <div id="gallery" class="gallery"></div>
-  </dialog>
+  <aside id="sidebar" class="sidebar glass">
+    <button id="closeSidebar" class="close-mobile" type="button">×</button>
+    <div class="eyebrow">NECKAR</div>
+    <h1>Abschnitt 5</h1>
+    <div class="subtitle">Heilbronn – Lauffen</div>
+    <p>Digitale Orientierungskarte auf Basis der offiziellen Vereinsunterlagen.</p>
 
-  <dialog id="infoDialog" class="text-dialog">
-    <header class="dialog-head"><div><span class="kicker">MUCHAGIO MAPS</span><h2>Info & Versionsstand</h2></div><button data-close-dialog type="button">×</button></header>
-    <div class="dialog-copy">
-      <div class="version-card">
-        <div><span>Aktuelle Version</span><strong id="appVersion">v0.8.0</strong></div>
-        <div><span>Build-Datum</span><strong id="buildDate">23.07.2026</strong></div>
-        <div><span>GIS-Status</span><strong class="status-silver">SILVER BETA</strong></div>
-      </div>
-      <p><strong>Neu in v0.8.0:</strong> Die Satellitenansicht ist als bevorzugte Kartenansicht fest integriert und wird gespeichert. Zufällig wirkende Sperrkreise wurden durch präzise Prüfpunkte an Schleusen, Wehren, Grenzen und Schutzstellen ersetzt.</p>
-      <p>Die Gewässerachse ist GIS-basiert. Prüfpunkte sind bewusst keine flächigen Sperrzonen. Anfang, Ende und erlaubte Uferseite bleiben dort, wo die Hege6-Unterlagen keine Koordinaten nennen, als Orientierung gekennzeichnet.</p>
-      <p>Vor dem Angeln bitte immer die Hege6-Unterlagen, die Gewässerordnung und die Beschilderung vor Ort prüfen.</p>
-      <p id="gisRuntimeStatus" class="runtime-status">GIS-Datenstatus wird geprüft …</p>
+    <button class="accordion" type="button"><span>▱</span><span><b>Kartenansicht</b><small id="baseLabel">Satellit</small></span><span>⌄</span></button>
+    <label class="layer-row green"><span class="layer-icon">⌁</span><span>Angelbereiche</span><input id="allowedToggle" type="checkbox" checked><i></i></label>
+    <label class="layer-row red"><span class="layer-icon">◌</span><span>Prüfbereiche</span><input id="warningToggle" type="checkbox" checked><i></i></label>
+    <label class="layer-row purple"><span class="layer-icon">⌾</span><span>Abschnittsmarker</span><input id="markerToggle" type="checkbox" checked><i></i></label>
+    <button id="docsButton" class="accordion" type="button"><span>▧</span><span><b>Referenzkarten</b><small>Originalunterlagen</small></span><span>›</span></button>
+  </aside>
+
+  <button id="menuButton" class="mobile-menu glass" type="button">☰</button>
+
+  <section class="legend-card glass">
+    <h2>LEGENDE</h2>
+    <div><span class="legend-shape allowed"></span><p><b>Angelbereich</b><small>Orientierung entlang des Gewässers</small></p></div>
+    <div><span class="legend-shape review"></span><p><b>Prüfbereich</b><small>Vor Ort und in Unterlagen prüfen</small></p></div>
+    <div><span class="legend-dot purple">●</span><p><b>Schleuse / Wehr</b><small>Sensibler Bereich</small></p></div>
+    <div><span class="legend-dot blue">P</span><p><b>Infrastruktur</b><small>Wird nach Prüfung ergänzt</small></p></div>
+  </section>
+
+  <section class="map-switcher glass">
+    <h2>KARTENANSICHT</h2>
+    <div class="base-toggle">
+      <button data-base="street" type="button"><span class="preview street"></span>Karte</button>
+      <button data-base="satellite" type="button"><span class="preview satellite"></span>Satellit</button>
     </div>
-  </dialog>
+  </section>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js'"></script>
-  <script src="data/map-data.js?v=0.8.0"></script>
-  <script src="app.js?v=0.8.0"></script>
+  <section class="opacity-card glass">
+    <div><span>TRANSPARENZ</span><b id="opacityValue">78 %</b></div>
+    <input id="opacityRange" type="range" min="35" max="100" value="78">
+  </section>
+
+  <section id="detailCard" class="detail-card glass hidden">
+    <button id="closeDetail" type="button">×</button>
+    <div class="eyebrow purple-text">PRÜFBEREICH</div>
+    <h2 id="detailTitle"></h2>
+    <div id="detailLocation" class="location">⌖ Am Neckar</div>
+    <p id="detailNote"></p>
+    <strong>Final immer mit den Originalunterlagen abgleichen.</strong>
+    <div class="detail-grid">
+      <div><small>Art</small><b>Wehr / Schleuse</b></div>
+      <div><small>Genauigkeit</small><b id="detailAccuracy"></b></div>
+      <div><small>Quelle</small><b id="detailSource"></b></div>
+      <div><small>Letzte Prüfung</small><b>Juli 2026</b></div>
+    </div>
+    <button id="detailDocs" class="primary-button" type="button">Originalunterlagen ansehen ↗</button>
+  </section>
+
+  <section class="bottom-center glass">
+    <span>Abschnitt wechseln</span>
+    <div><button id="prevSection" type="button">‹ vorheriger</button><select id="sectionSelect"></select><button id="nextSection" type="button">nächster ›</button></div>
+  </section>
+
+  <button id="infoButton" class="footer-button left glass" type="button">ⓘ Über diese Karte</button>
+  <button id="rulesButton" class="footer-button right glass" type="button">▤ Regeln & Bestimmungen</button>
+  <button id="locateButton" class="locate-button glass" type="button">⌖</button>
+
+  <div id="backdrop" class="backdrop"></div>
+  <div id="loadError" class="load-error" hidden>Karte konnte nicht geladen werden.</div>
+</div>
+
+<dialog id="referenceDialog">
+  <header><div><span class="eyebrow">ORIGINALUNTERLAGEN</span><h2 id="dialogTitle"></h2><p id="dialogSubtitle"></p></div><button id="closeDialog" type="button">×</button></header>
+  <div id="gallery" class="gallery"></div>
+</dialog>
+<dialog id="infoDialog">
+  <header><div><span class="eyebrow">MUCHAGIO MAPS</span><h2>Info & Versionsstand</h2></div><button data-close-dialog type="button">×</button></header>
+  <div class="dialog-copy">
+    <div class="version-grid"><div><small>Version</small><b id="appVersion"></b></div><div><small>Build</small><b id="buildDate"></b></div><div><small>Status</small><b>SILVER BETA</b></div></div>
+    <p><b>Neu:</b> Komplett neues High-End-Kartenlayout, fest integrierte Satellitenansicht, zentrale Versionsverwaltung und automatische Ausrichtung sensibler Prüfpunkte an der geladenen Gewässergeometrie.</p>
+    <p>Die Karte dient der Orientierung. Maßgeblich bleiben die offiziellen Hege6-Unterlagen, Beschilderungen und Bestimmungen vor Ort.</p>
+    <p id="gisRuntimeStatus">GIS-Datenstatus wird geprüft …</p>
+  </div>
+</dialog>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js'"></script>
+<script src="data/map-data.js?v=0.9.0"></script>
+<script src="app.js?v=0.9.0"></script>
 </body>
 </html>

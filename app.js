@@ -1,217 +1,75 @@
 'use strict';
-if ('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then(items => items.forEach(item => item.unregister()));
-if ('caches' in window) caches.keys().then(keys => keys.forEach(key => caches.delete(key)));
+if('serviceWorker'in navigator)navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister()));
+if('caches'in window)caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
 
-const data = window.MUCHA_MAP_DATA;
-const sections = data.sections;
-const byId = id => sections.find(section => section.id === id);
-const sidebar = document.getElementById('sidebar');
-const backdrop = document.getElementById('backdrop');
-const openSidebar = () => { sidebar.classList.add('open'); backdrop.classList.add('show'); };
-const closeSidebar = () => { sidebar.classList.remove('open'); backdrop.classList.remove('show'); };
-document.getElementById('menuButton').addEventListener('click', openSidebar);
-document.getElementById('layerButton').addEventListener('click', openSidebar);
-backdrop.addEventListener('click', closeSidebar);
+const data=window.MUCHA_MAP_DATA;
+const sections=data.sections;
+const byId=id=>sections.find(s=>s.id===id);
+const qs=s=>document.querySelector(s);
+const qsa=s=>[...document.querySelectorAll(s)];
 
-const dialog = document.getElementById('referenceDialog');
-function openReferences(section) {
-  document.getElementById('dialogTitle').textContent = section.title;
-  document.getElementById('dialogSubtitle').textContent = section.subtitle;
-  const officialLink = `<div class="official-link"><a href="${section.officialUrl}" target="_blank" rel="noopener">Offizielle Hege6-Seite öffnen ↗</a></div>`;
-  const figures = section.refs.map(([src, caption]) => `<figure><a href="${src}" target="_blank" rel="noopener"><img src="${src}" alt="${caption}" loading="lazy"></a><figcaption>${caption} · antippen für Originalgröße</figcaption></figure>`).join('');
-  document.getElementById('gallery').innerHTML = officialLink + figures;
-  dialog.showModal();
+qs('#versionBadge').textContent=`v${data.meta.version}`;
+qs('#appVersion').textContent=`v${data.meta.version}`;
+qs('#buildDate').textContent=data.meta.buildDate.split('-').reverse().join('.');
+
+const sidebar=qs('#sidebar'),backdrop=qs('#backdrop');
+const openSidebar=()=>{sidebar.classList.add('open');backdrop.classList.add('show')};
+const closeSidebar=()=>{sidebar.classList.remove('open');backdrop.classList.remove('show')};
+qs('#menuButton').onclick=openSidebar;qs('#closeSidebar').onclick=closeSidebar;backdrop.onclick=closeSidebar;
+
+const referenceDialog=qs('#referenceDialog');
+function openReferences(section){
+ qs('#dialogTitle').textContent=section.title;qs('#dialogSubtitle').textContent=section.subtitle;
+ const figures=section.refs.map(([src,caption])=>`<figure><a href="${src}" target="_blank" rel="noopener"><img src="${src}" alt="${caption}" loading="lazy"></a><figcaption>${caption}</figcaption></figure>`).join('');
+ qs('#gallery').innerHTML=`<div class="official-link"><a href="${section.officialUrl}" target="_blank" rel="noopener">Offizielle Hege6-Seite öffnen ↗</a></div>${figures}`;
+ referenceDialog.showModal();
 }
-document.getElementById('closeDialog').addEventListener('click', () => dialog.close());
-dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+qs('#closeDialog').onclick=()=>referenceDialog.close();
+referenceDialog.onclick=e=>{if(e.target===referenceDialog)referenceDialog.close()};
+const infoDialog=qs('#infoDialog');
+qs('#infoButton').onclick=()=>infoDialog.showModal();qs('#rulesButton').onclick=()=>infoDialog.showModal();
+qs('[data-close-dialog]').onclick=()=>infoDialog.close();
 
-const infoDialog = document.getElementById('infoDialog');
-document.getElementById('infoButton').addEventListener('click', () => infoDialog.showModal());
-document.getElementById('rulesButton').addEventListener('click', () => infoDialog.showModal());
-infoDialog.querySelector('[data-close-dialog]').addEventListener('click', () => infoDialog.close());
-
-function setRuntimeStatus(text, state='loading') {
-  const el = document.getElementById('gisRuntimeStatus');
-  if (!el) return;
-  el.textContent = text;
-  el.dataset.state = state;
+function setRuntimeStatus(text,state='loading'){const el=qs('#gisRuntimeStatus');el.textContent=text;el.dataset.state=state}
+function popupHtml(title,note,sectionId,status,meta=''){
+ const badge=status==='allowed'?'GIS-ANGELBEREICH':'PRÜFBEREICH';
+ return `<div class="popup-badge ${status==='warning'?'warning':''}">${badge}</div><div class="popup-title">${title}</div><div class="popup-copy">${note}${meta?`<br><span class="popup-meta">${meta}</span>`:''}<br><strong>Final mit Originalunterlagen abgleichen.</strong></div><button class="popup-button" data-section="${sectionId}">Unterlagen ansehen</button>`;
 }
+const endpoints=['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter','https://overpass.nchc.org.tw/api/interpreter'];
+function buildQuery(s){const[a,b,c,d]=s.bbox;return `[out:json][timeout:30];(way["waterway"~"${s.types.join('|')}"]["name"~"${s.nameRegex}",i](${a},${b},${c},${d}););out geom;`}
+async function fetchOverpass(query){let err;for(const endpoint of endpoints){try{const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},body:`data=${encodeURIComponent(query)}`});if(!r.ok)throw new Error(`HTTP ${r.status}`);return await r.json()}catch(e){err=e}}throw err||new Error('Overpass unavailable')}
+function toLines(payload){return(payload.elements||[]).filter(x=>x.type==='way'&&x.geometry?.length>1).map(x=>({id:x.id,coordinates:x.geometry.map(p=>[p.lat,p.lon])}))}
+async function loadGeometry(source){const key=`muchagio-osm-${data.meta.version}-${source.id}`;try{const c=JSON.parse(localStorage.getItem(key));if(c?.savedAt>Date.now()-604800000&&c.lines?.length)return c.lines}catch(_){ }const lines=toLines(await fetchOverpass(buildQuery(source)));if(!lines.length)throw new Error('No geometry');try{localStorage.setItem(key,JSON.stringify({savedAt:Date.now(),lines}))}catch(_){ }return lines}
+function nearestPoint(target,lines){let best=target,bestD=Infinity;for(const line of lines)for(const p of line.coordinates){const d=(p[0]-target[0])**2+(p[1]-target[1])**2;if(d<bestD){bestD=d;best=p}}return best}
 
-function popupHtml(title, note, sectionId, status, meta='') {
-  const badge = status === 'allowed' ? 'GIS-ANGELBEREICH' : 'PRÜFPUNKT';
-  return `<div class="popup-badge ${status === 'warning' ? 'warning' : ''}">${badge}</div><div class="popup-title">${title}</div><div class="popup-copy">${note}${meta ? `<br><span class="popup-meta">${meta}</span>` : ''}<br><strong>Final immer mit den Originalunterlagen und der Beschilderung abgleichen.</strong></div><button class="popup-button" data-section="${sectionId}">Unterlagen ansehen</button>`;
+function initMap(){
+ if(typeof L==='undefined'){qs('#loadError').hidden=false;return}
+ const street=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap-Mitwirkende'});
+ const satellite=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Tiles &copy; Esri'});
+ const labels=L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,opacity:.8});
+ const savedBase=localStorage.getItem('muchagio-base-map')||'satellite';
+ const map=L.map('map',{layers:savedBase==='satellite'?[satellite,labels]:[street],zoomControl:false,preferCanvas:true}).setView([49.073,9.165],11);
+ window.appMap=map;
+ const markerLayer=L.layerGroup().addTo(map),allowedLayer=L.layerGroup().addTo(map),warningLayer=L.layerGroup().addTo(map);
+ const allBounds=L.latLngBounds([]),waterBySource={},reviewMarkers={};
+ const sectionIcon=n=>L.divIcon({className:'',html:`<div class="map-pin"><span>${n}</span></div>`,iconSize:[42,42],iconAnchor:[21,38]});
+ const reviewIcon=L.divIcon({className:'',html:'<div class="review-pin"><span>✓</span></div>',iconSize:[34,34],iconAnchor:[17,17]});
+ sections.forEach(s=>{allBounds.extend(s.center);L.marker(s.center,{icon:sectionIcon(s.number)}).addTo(markerLayer).bindPopup(`<div class="popup-badge">${s.number}</div><div class="popup-title">${s.title}</div><div class="popup-copy">${s.subtitle}</div><button class="popup-button" data-section="${s.id}">Unterlagen ansehen</button>`) });
+ data.reviewPoints.forEach(p=>{const m=L.marker(p.center,{icon:reviewIcon,zIndexOffset:600}).addTo(warningLayer).bindTooltip(p.title,{direction:'top',offset:[0,-15]});reviewMarkers[p.id]=m;m.on('click',()=>showDetail(p));allBounds.extend(p.center)});
+ function showDetail(p){qs('#detailTitle').textContent=p.title;qs('#detailNote').textContent=p.note;qs('#detailAccuracy').textContent=p.accuracy;qs('#detailSource').textContent=p.source;qs('#detailCard').classList.remove('hidden');qs('#detailDocs').onclick=()=>openReferences(byId(p.sectionId))}
+ qs('#closeDetail').onclick=()=>qs('#detailCard').classList.add('hidden');
+ setRuntimeStatus('GIS-Wassergeometrien werden geladen …');
+ Promise.allSettled(data.osmWaterSources.map(async source=>{const lines=await loadGeometry(source);waterBySource[source.id]=lines;lines.forEach(line=>{line.coordinates.forEach(p=>allBounds.extend(p));L.polyline(line.coordinates,{color:'#052d20',weight:22,opacity:.55,lineCap:'round',lineJoin:'round'}).addTo(allowedLayer);L.polyline(line.coordinates,{color:'#49e59d',weight:6,opacity:.98,lineCap:'round',lineJoin:'round'}).addTo(allowedLayer).bindPopup(popupHtml(source.title,source.note,source.sectionId,'allowed'))});data.reviewPoints.filter(p=>p.sourceId===source.id).forEach(p=>{const snapped=nearestPoint(p.center,lines);reviewMarkers[p.id].setLatLng(snapped);p.renderCenter=snapped});return source})).then(results=>{const ok=results.filter(r=>r.status==='fulfilled').length;setRuntimeStatus(ok?`GIS aktiv: ${ok}/${results.length} Gewässerbereiche geladen. Prüfpunkte wurden an die Gewässergeometrie ausgerichtet.`:'GIS-Daten konnten nicht geladen werden.',ok===results.length?'ok':'warning');if(ok)map.fitBounds(allBounds.pad(.06))});
+ map.on('popupopen',e=>{const b=e.popup.getElement()?.querySelector('[data-section]');if(b)b.onclick=()=>openReferences(byId(b.dataset.section))});
+ map.fitBounds(allBounds.pad(.06));setTimeout(()=>map.invalidateSize(true),100);addEventListener('resize',()=>map.invalidateSize(false));
+ qs('#allowedToggle').onchange=e=>e.target.checked?allowedLayer.addTo(map):map.removeLayer(allowedLayer);
+ qs('#warningToggle').onchange=e=>e.target.checked?warningLayer.addTo(map):map.removeLayer(warningLayer);
+ qs('#markerToggle').onchange=e=>e.target.checked?markerLayer.addTo(map):map.removeLayer(markerLayer);
+ function setBase(name){qsa('[data-base]').forEach(b=>b.classList.toggle('active',b.dataset.base===name));qs('#baseLabel').textContent=name==='satellite'?'Satellit':'Karte';if(name==='satellite'){map.removeLayer(street);satellite.addTo(map);labels.addTo(map)}else{map.removeLayer(satellite);map.removeLayer(labels);street.addTo(map)}localStorage.setItem('muchagio-base-map',name)}
+ qsa('[data-base]').forEach(b=>b.onclick=()=>setBase(b.dataset.base));setBase(savedBase);
+ qs('#opacityRange').oninput=e=>{const v=+e.target.value;qs('#opacityValue').textContent=`${v} %`;allowedLayer.eachLayer(l=>l.setStyle&&l.setStyle({opacity:v/100}))};
+ qs('#locateButton').onclick=()=>map.locate({setView:true,maxZoom:17,enableHighAccuracy:true});map.on('locationfound',e=>L.circleMarker(e.latlng,{radius:8,color:'#fff',weight:3,fillColor:'#3187ed',fillOpacity:1}).addTo(map).bindPopup('Dein Standort').openPopup());map.on('locationerror',()=>alert('Standort konnte nicht bestimmt werden.'));
+ const select=qs('#sectionSelect');select.innerHTML=sections.map(s=>`<option value="${s.id}">${s.number} · ${s.shortTitle}</option>`).join('');let current=0;function go(i){current=(i+sections.length)%sections.length;const s=sections[current];select.value=s.id;map.flyTo(s.center,s.zoom,{duration:.8})}select.onchange=()=>{current=sections.findIndex(s=>s.id===select.value);go(current)};qs('#prevSection').onclick=()=>go(current-1);qs('#nextSection').onclick=()=>go(current+1);
+ qs('#docsButton').onclick=()=>openReferences(sections[current]);
 }
-
-const OVERPASS_ENDPOINTS = [
-  'https://overpass-api.de/api/interpreter',
-  'https://overpass.kumi.systems/api/interpreter',
-  'https://overpass.nchc.org.tw/api/interpreter'
-];
-
-function buildOverpassQuery(source) {
-  const [south, west, north, east] = source.bbox;
-  const typeRegex = source.types.join('|');
-  return `[out:json][timeout:30];(way["waterway"~"${typeRegex}"]["name"~"${source.nameRegex}",i](${south},${west},${north},${east}););out geom;`;
-}
-
-async function fetchOverpass(query) {
-  let lastError;
-  for (const endpoint of OVERPASS_ENDPOINTS) {
-    try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
-        body: `data=${encodeURIComponent(query)}`
-      });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      return await response.json();
-    } catch (error) {
-      lastError = error;
-    }
-  }
-  throw lastError || new Error('Overpass unavailable');
-}
-
-function osmElementsToLines(payload) {
-  return (payload.elements || [])
-    .filter(item => item.type === 'way' && Array.isArray(item.geometry) && item.geometry.length > 1)
-    .map(item => ({
-      id: item.id,
-      name: item.tags?.name || 'Gewässer',
-      coordinates: item.geometry.map(point => [point.lat, point.lon])
-    }));
-}
-
-async function loadOsmWaterGeometry(source) {
-  const cacheKey = `muchagio-osm-${data.meta.version}-${source.id}`;
-  try {
-    const cached = localStorage.getItem(cacheKey);
-    if (cached) {
-      const parsed = JSON.parse(cached);
-      if (parsed.savedAt > Date.now() - 7 * 24 * 60 * 60 * 1000 && parsed.lines?.length) return parsed.lines;
-    }
-  } catch (_) {}
-
-  const payload = await fetchOverpass(buildOverpassQuery(source));
-  const lines = osmElementsToLines(payload);
-  if (!lines.length) throw new Error(`Keine OSM-Wassergeometrie für ${source.id}`);
-  try { localStorage.setItem(cacheKey, JSON.stringify({savedAt: Date.now(), lines})); } catch (_) {}
-  return lines;
-}
-
-function initMap() {
-  if (typeof L === 'undefined') { document.getElementById('loadError').hidden = false; return; }
-  const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap-Mitwirkende' });
-  const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19, attribution: 'Tiles &copy; Esri' });
-  const labels = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19, opacity: .82 });
-  const savedBase = localStorage.getItem('muchagio-base-map') || 'satellite';
-  const initialLayers = savedBase === 'satellite' ? [satellite, labels] : [street];
-  const map = L.map('map', { layers: initialLayers, zoomControl: false, preferCanvas: true }).setView([49.073, 9.165], 11);
-  window.appMap = map;
-
-  const markerLayer = L.layerGroup().addTo(map);
-  const allowedLayer = L.layerGroup().addTo(map);
-  const warningLayer = L.layerGroup().addTo(map);
-  const allBounds = L.latLngBounds([]);
-  const icon = number => L.divIcon({ className: '', html: `<div class="map-pin"><span>${number}</span></div>`, iconSize: [46,46], iconAnchor: [23,42] });
-
-  sections.forEach(section => {
-    allBounds.extend(section.center);
-    L.marker(section.center, { icon: icon(section.number) }).addTo(markerLayer)
-      .bindPopup(`<div class="popup-badge">${section.number}</div><div class="popup-title">${section.title}</div><div class="popup-copy">${section.subtitle}</div><button class="popup-button" data-section="${section.id}">Unterlagen ansehen</button>`);
-  });
-
-  const reviewIcon = L.divIcon({ className:'', html:'<div class="review-pin"><span>!</span></div>', iconSize:[34,34], iconAnchor:[17,17] });
-  data.reviewPoints.forEach(point => {
-    allBounds.extend(point.center);
-    L.marker(point.center, {icon:reviewIcon, zIndexOffset:600}).addTo(warningLayer)
-      .bindTooltip(point.title, {direction:'top', offset:[0,-15]})
-      .bindPopup(popupHtml(point.title, point.note, point.sectionId, 'warning', `Genauigkeit: ${point.accuracy} · Quelle: ${point.source}`));
-    if (point.accuracy === 'niedrig') {
-      L.circle(point.center, {radius:35, color:'#ff8a63', weight:1, opacity:.75, fillOpacity:0, dashArray:'4 5', interactive:false}).addTo(warningLayer);
-    }
-  });
-
-  setRuntimeStatus('GIS-Wassergeometrien werden aus OpenStreetMap geladen …');
-  Promise.allSettled(data.osmWaterSources.map(async source => {
-    const lines = await loadOsmWaterGeometry(source);
-    lines.forEach(line => {
-      line.coordinates.forEach(point => allBounds.extend(point));
-      L.polyline(line.coordinates, { color:'#0a3d26', weight:18, opacity:.46, lineCap:'round', lineJoin:'round' }).addTo(allowedLayer);
-      L.polyline(line.coordinates, { color:'#4ee3a0', weight:5, opacity:.98, lineCap:'round', lineJoin:'round' }).addTo(allowedLayer)
-        .bindPopup(popupHtml(source.title, source.note, source.sectionId, 'allowed'));
-    });
-    return {source, count: lines.length};
-  })).then(results => {
-    const ok = results.filter(result => result.status === 'fulfilled');
-    const failed = results.length - ok.length;
-    if (ok.length) {
-      setRuntimeStatus(`GIS aktiv: ${ok.length}/${results.length} Gewässerbereiche aus OpenStreetMap geladen${failed ? ` · ${failed} Bereich(e) konnten nicht geladen werden` : ''}.`, failed ? 'warning' : 'ok');
-      map.fitBounds(allBounds.pad(.09));
-    } else {
-      setRuntimeStatus('GIS-Daten konnten aktuell nicht geladen werden. Es werden bewusst keine ungenauen Ersatzlinien angezeigt.', 'error');
-    }
-  });
-
-  map.on('popupopen', event => {
-    const button = event.popup.getElement()?.querySelector('[data-section]');
-    if (button) button.addEventListener('click', () => openReferences(byId(button.dataset.section)));
-  });
-
-  map.fitBounds(allBounds.pad(.09));
-  setTimeout(() => map.invalidateSize(true), 100);
-  window.addEventListener('resize', () => map.invalidateSize(false));
-
-  document.getElementById('fitAll').addEventListener('click', () => { map.fitBounds(allBounds.pad(.09)); closeSidebar(); });
-  document.getElementById('markerToggle').addEventListener('change', e => e.target.checked ? markerLayer.addTo(map) : map.removeLayer(markerLayer));
-  document.getElementById('allowedToggle').addEventListener('change', e => e.target.checked ? allowedLayer.addTo(map) : map.removeLayer(allowedLayer));
-  document.getElementById('warningToggle').addEventListener('change', e => e.target.checked ? warningLayer.addTo(map) : map.removeLayer(warningLayer));
-
-  document.querySelectorAll('[data-base]').forEach(button => {
-    button.classList.toggle('active', button.dataset.base === savedBase);
-    button.addEventListener('click', () => {
-    document.querySelectorAll('[data-base]').forEach(item => item.classList.remove('active'));
-    button.classList.add('active');
-    if (button.dataset.base === 'satellite') {
-      if (map.hasLayer(street)) map.removeLayer(street);
-      satellite.addTo(map); labels.addTo(map);
-    } else {
-      if (map.hasLayer(satellite)) map.removeLayer(satellite);
-      if (map.hasLayer(labels)) map.removeLayer(labels);
-      street.addTo(map);
-    }
-    localStorage.setItem('muchagio-base-map', button.dataset.base);
-  });
-  });
-
-  document.getElementById('zoomIn').addEventListener('click', () => map.zoomIn());
-  document.getElementById('zoomOut').addEventListener('click', () => map.zoomOut());
-  document.getElementById('locateButton').addEventListener('click', () => map.locate({ setView:true, maxZoom:17, enableHighAccuracy:true }));
-  let userMarker, userCircle;
-  map.on('locationfound', event => {
-    if (userMarker) map.removeLayer(userMarker);
-    if (userCircle) map.removeLayer(userCircle);
-    userMarker = L.circleMarker(event.latlng, { radius:7, color:'#fff', weight:3, fillColor:'#2f9fff', fillOpacity:1 }).addTo(map).bindPopup('Dein Standort').openPopup();
-    userCircle = L.circle(event.latlng, { radius:event.accuracy, color:'#2f9fff', weight:1, fillOpacity:.08 }).addTo(map);
-  });
-  map.on('locationerror', () => alert('Standort konnte nicht bestimmt werden. Bitte Standortzugriff im Browser erlauben.'));
-
-  const results = document.getElementById('searchResults');
-  const input = document.getElementById('searchInput');
-  function showResults(query='') {
-    const q = query.trim().toLowerCase();
-    const matches = sections.filter(section => !q || `${section.title} ${section.shortTitle} ${section.subtitle}`.toLowerCase().includes(q));
-    results.innerHTML = matches.map(section => `<button type="button" data-search-id="${section.id}"><strong>${section.number} · ${section.shortTitle}</strong><br><small>${section.subtitle}</small></button>`).join('');
-    results.classList.toggle('show', matches.length > 0 && (q.length > 0 || document.activeElement === input));
-    results.querySelectorAll('[data-search-id]').forEach(button => button.addEventListener('click', () => {
-      const section = byId(button.dataset.searchId); map.flyTo(section.center, section.zoom, {duration:.8}); results.classList.remove('show'); input.value = section.shortTitle;
-    }));
-  }
-  input.addEventListener('focus', () => showResults(input.value));
-  input.addEventListener('input', () => showResults(input.value));
-  document.addEventListener('click', event => { if (!event.target.closest('.search')) results.classList.remove('show'); });
-
-  document.getElementById('docsButton').addEventListener('click', () => { openSidebar(); setTimeout(() => sidebar.scrollTo({top:sidebar.scrollHeight,behavior:'smooth'}),100); });
-}
-
-if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initMap); else initMap();
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initMap);else initMap();
