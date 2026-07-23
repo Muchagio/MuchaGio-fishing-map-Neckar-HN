@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#071923">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta name="description" content="MuchaGio Fishing Maps – Neckar Abschnitt 5.">
+  <title>MuchaGio Fishing Maps</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css'">
+  <link rel="stylesheet" href="styles.css?v=0.9.2-r1">
+</head>
+<body>
+<div id="app">
+  <div id="map"></div>
+
+  <div class="brand-card glass">
+    <div class="fish-mark">◔</div>
+    <div><strong>MuchaGio</strong><small>Fishing Maps</small></div>
+    <span id="versionBadge" class="version-badge">v0.9.2</span>
+  </div>
+
+  <aside id="sidebar" class="sidebar glass">
+    <button id="closeSidebar" class="close-mobile" type="button">×</button>
+    <div class="eyebrow">NECKAR</div>
+    <h1>Abschnitt 5</h1>
+    <div class="subtitle">Heilbronn – Lauffen</div>
+    <p>Digitale Orientierungskarte auf Basis der offiziellen Vereinsunterlagen.</p>
+
+    <button class="accordion" type="button"><span>▱</span><span><b>Kartenansicht</b><small id="baseLabel">Satellit</small></span><span>⌄</span></button>
+    <label class="layer-row green"><span class="layer-icon">⌁</span><span>Angelbereiche</span><input id="allowedToggle" type="checkbox" checked><i></i></label>
+    <label class="layer-row red"><span class="layer-icon">◌</span><span>Geprüfte Bauwerke</span><input id="warningToggle" type="checkbox" checked><i></i></label>
+    <label class="layer-row purple"><span class="layer-icon">⌾</span><span>Prüfbereiche</span><input id="markerToggle" type="checkbox" checked><i></i></label>
+    <button id="docsButton" class="accordion" type="button"><span>▧</span><span><b>Referenzkarten</b><small>Originalunterlagen</small></span><span>›</span></button>
+  </aside>
+
+  <button id="menuButton" class="mobile-menu glass" type="button">☰</button>
+
+  <section class="legend-card glass">
+    <h2>LEGENDE</h2>
+    <div><span class="legend-shape allowed"></span><p><b>Angelbereich</b><small>Orientierung entlang des Gewässers</small></p></div>
+    <div><span class="legend-shape review"></span><p><b>Geprüftes Bauwerk</b><small>Nur nach GIS-Treffer eingeblendet</small></p></div>
+    <div><span class="legend-dot purple">●</span><p><b>Schleuse / Wehr</b><small>Reale Bauwerksposition</small></p></div>
+    <div><span class="legend-dot blue">P</span><p><b>Infrastruktur</b><small>Wird nach Prüfung ergänzt</small></p></div>
+  </section>
+
+  <section class="map-switcher glass">
+    <h2>KARTENANSICHT</h2>
+    <div class="base-toggle">
+      <button data-base="street" type="button"><span class="preview street"></span>Karte</button>
+      <button data-base="satellite" type="button"><span class="preview satellite"></span>Satellit</button>
+    </div>
+  </section>
+
+  <section class="opacity-card glass">
+    <div><span>TRANSPARENZ</span><b id="opacityValue">78 %</b></div>
+    <input id="opacityRange" type="range" min="35" max="100" value="78">
+  </section>
+
+  <section id="detailCard" class="detail-card glass hidden">
+    <button id="closeDetail" type="button">×</button>
+    <div class="eyebrow purple-text">PRÜFBEREICH</div>
+    <h2 id="detailTitle"></h2>
+    <div id="detailLocation" class="location">⌖ Am Neckar</div>
+    <p id="detailNote"></p>
+    <strong>Final immer mit den Originalunterlagen abgleichen.</strong>
+    <div class="detail-grid">
+      <div><small>Art</small><b>Wehr / Schleuse</b></div>
+      <div><small>Genauigkeit</small><b id="detailAccuracy"></b></div>
+      <div><small>Quelle</small><b id="detailSource"></b></div>
+      <div><small>Letzte Prüfung</small><b>Juli 2026</b></div>
+    </div>
+    <button id="detailDocs" class="primary-button" type="button">Originalunterlagen ansehen ↗</button>
+  </section>
+
+  <section class="bottom-center glass">
+    <span>Abschnitt wechseln</span>
+    <div><button id="prevSection" type="button">‹ vorheriger</button><select id="sectionSelect"></select><button id="nextSection" type="button">nächster ›</button></div>
+  </section>
+
+  <button id="infoButton" class="footer-button left glass" type="button">ⓘ Über diese Karte</button>
+  <button id="rulesButton" class="footer-button right glass" type="button">▤ Regeln & Bestimmungen</button>
+  <button id="locateButton" class="locate-button glass" type="button">⌖</button>
+
+  <div id="backdrop" class="backdrop"></div>
+  <div id="loadError" class="load-error" hidden>Karte konnte nicht geladen werden.</div>
+</div>
+
+<dialog id="referenceDialog">
+  <header><div><span class="eyebrow">ORIGINALUNTERLAGEN</span><h2 id="dialogTitle"></h2><p id="dialogSubtitle"></p></div><button id="closeDialog" type="button">×</button></header>
+  <div id="gallery" class="gallery"></div>
+</dialog>
+<dialog id="infoDialog">
+  <header><div><span class="eyebrow">MUCHAGIO MAPS</span><h2>Info & Versionsstand</h2></div><button data-close-dialog type="button">×</button></header>
+  <div class="dialog-copy">
+    <div class="version-grid"><div><small>Version</small><b id="appVersion">v0.9.2</b></div><div><small>Build</small><b id="buildDate"></b></div><div><small>Status</small><b>SILVER BETA</b></div></div>
+    <p><b>Neu:</b> Alle Bauwerksmarker werden zusätzlich gegen die geladene Gewässergeometrie geprüft. Prüfbereiche liegen ausschließlich um verifizierte Bauwerke am Neckar; Abschnittsnummern und freie Stadtmarker werden nicht mehr dargestellt.</p>
+    <p>Die Karte dient der Orientierung. Maßgeblich bleiben die offiziellen Hege6-Unterlagen, Beschilderungen und Bestimmungen vor Ort.</p>
+    <p id="gisRuntimeStatus">GIS-Datenstatus wird geprüft …</p>
+  </div>
+</dialog>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js'"></script>
+<script src="data/map-data.js?v=0.9.2-r1"></script>
+<script src="app.js?v=0.9.2-r1"></script>
+</body>
+</html>
