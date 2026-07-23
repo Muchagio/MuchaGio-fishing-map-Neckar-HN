@@ -2,8 +2,9 @@
 
 window.MUCHA_MAP_DATA = {
   meta: {
-    version: '0.5.0',
-    updated: '2026-07-22',
+    version: '0.7.0',
+    buildDate: '2026-07-23',
+    dataStatus: 'OSM waterway geometry at runtime; official section limits approximate',
     disclaimer: 'Orientierungsdarstellung. Maßgeblich sind die aktuellen Originalunterlagen, Verbotsschilder und die Gewässerordnung.'
   },
   sections: [
@@ -45,28 +46,37 @@ window.MUCHA_MAP_DATA = {
       ]
     }
   ],
-  allowedCorridors: [
+
+  // Each source is queried directly from OpenStreetMap via Overpass.
+  // This replaces the former hand-drawn corridors. The bbox limits the
+  // visible waterway segment; official start/end points are still approximate.
+  osmWaterSources: [
     {
-      id: 'boeckingen-allowed', sectionId: 'boeckingen', title: 'Angelbereich Böckingen (ca.)',
-      note: 'Digitale Orientierung entlang des Neckars. Exakte Anfangs- und Endpunkte bitte mit der Originalkarte prüfen.',
-      coordinates: [[49.1444,9.1989],[49.1454,9.1995],[49.1465,9.2000],[49.1477,9.2008],[49.1489,9.2015],[49.1501,9.2020],[49.1512,9.2024]]
+      id: 'boeckingen-water', sectionId: 'boeckingen', title: 'Angelbereich Böckingen (GIS)',
+      note: 'Wasserverlauf aus OpenStreetMap. Abschnittsgrenzen und Uferfreigabe mit der offiziellen Karte prüfen.',
+      bbox: [49.1415, 9.1940, 49.1545, 9.2075],
+      nameRegex: 'Neckar', types: ['river','canal']
     },
     {
-      id: 'horkheim-channel', sectionId: 'horkheim', title: 'Schifffahrtskanal Horkheim (ca.)',
-      note: 'Orientierung entlang des Kanals. Welche Uferseite freigegeben ist, muss abschnittsweise in den Hege6-Unterlagen geprüft werden.',
-      coordinates: [[49.1280,9.1811],[49.1252,9.1808],[49.1222,9.1804],[49.1192,9.1800],[49.1160,9.1795],[49.1128,9.1790],[49.1096,9.1785],[49.1064,9.1780],[49.1031,9.1775],[49.1002,9.1770]]
+      id: 'horkheim-water', sectionId: 'horkheim', title: 'Schifffahrtskanal Horkheim (GIS)',
+      note: 'Kanal-/Neckar-Geometrie aus OpenStreetMap. Erlaubte Uferseite abschnittsweise in den Hege6-Unterlagen prüfen.',
+      bbox: [49.0975, 9.1715, 49.1305, 9.1865],
+      nameRegex: 'Neckar|Schifffahrtskanal', types: ['river','canal']
     },
     {
-      id: 'lauffen-besigheim', sectionId: 'lauffen', title: 'Neckar Lauffen–Besigheim (ca.)',
-      note: 'Der Verlauf wurde als Orientierung enger an den sichtbaren Neckar gelegt. Lokale Sperrbereiche und Uferfreigaben separat prüfen.',
-      coordinates: [[49.0890,9.1640],[49.0860,9.1580],[49.0820,9.1520],[49.0770,9.1470],[49.0720,9.1440],[49.0680,9.1460],[49.0640,9.1520],[49.0590,9.1580],[49.0540,9.1590],[49.0500,9.1550],[49.0460,9.1490],[49.0420,9.1430],[49.0370,9.1390],[49.0320,9.1370],[49.0270,9.1390],[49.0220,9.1440],[49.0170,9.1490],[49.0120,9.1510],[49.0070,9.1480],[49.0020,9.1450]]
+      id: 'lauffen-water', sectionId: 'lauffen', title: 'Neckar Lauffen–Besigheim (GIS)',
+      note: 'Exakte OSM-Gewässerachse innerhalb des offiziellen Orientierungsraums. Lokale Sperrflächen separat prüfen.',
+      bbox: [49.0000, 9.1370, 49.0925, 9.1715],
+      nameRegex: 'Neckar', types: ['river','canal']
     },
     {
-      id: 'enz-mouth', sectionId: 'besigheim', title: 'Enz bei Besigheim (ca.)',
-      note: 'Kurzer Orientierungsabschnitt von der Mündung in Richtung B27. Die offizielle Hege6-Karte ist maßgeblich.',
-      coordinates: [[49.0007,9.1438],[49.0002,9.1429],[48.9997,9.1419],[48.9992,9.1408],[48.9987,9.1398]]
+      id: 'enz-water', sectionId: 'besigheim', title: 'Enz bei Besigheim (GIS)',
+      note: 'Enz-Geometrie aus OpenStreetMap. Hege6-/Hege7-Grenze und Schutzbereiche anhand der offiziellen Karte prüfen.',
+      bbox: [48.9965, 9.1360, 49.0035, 9.1495],
+      nameRegex: 'Enz', types: ['river','canal']
     }
   ],
+
   warningZones: [
     {id:'boeckingen-lock', sectionId:'boeckingen', title:'Schleusen-/Wehrbereich prüfen', center:[49.1444,9.1986], radius:90, note:'Sicherheits- und Sperrabstände vor Ort sowie Originalkarte beachten.'},
     {id:'horkheim-north', sectionId:'horkheim', title:'Nördlicher Übergangsbereich prüfen', center:[49.1280,9.1810], radius:85, note:'Übergang, Uferseite und Beschilderung anhand der Originalunterlagen prüfen.'},

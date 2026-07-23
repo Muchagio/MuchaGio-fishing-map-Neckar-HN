@@ -1,20 +1,13 @@
-# MuchaGio Fishing Maps v0.5.0
+# MuchaGio Fishing Maps v0.7.0
 
-UI-Rebuild nach dem freigegebenen Dark-Map-Mockup.
+## Main change
+The former hand-drawn fishing corridors have been removed. Fishing overlays now load real OpenStreetMap waterway geometries through the Overpass API and therefore follow the mapped Neckar, canal and Enz courses.
 
-## Neu
-- Desktop-Seitenleiste und mobile Layer-Schublade
-- Suche nach allen vier Abschnitten
-- Karten-/Satellitenumschaltung
-- eigene Zoom- und Standortsteuerung
-- Bottom-Navigation
-- überarbeitete Marker und Popups
-- Angelkorridore deutlich enger am Gewässerverlauf
-- Sperr-/Prüfzonen separat schaltbar
-- Originalunterlagen weiterhin direkt erreichbar
+## Version display
+The current version, build date and GIS status are visible under **Info** and in the sidebar header.
 
-## Wichtig
-Die farbigen Bereiche sind eine digitale Orientierung und noch keine amtlich vermessenen Grenzen. Maßgeblich sind Hege6-Unterlagen, Gewässerordnung und Beschilderung vor Ort.
+## Accuracy
+Water geometry is GIS-based. Official start/end limits and permitted bank sides remain orientation data until the Hege6 maps have been fully georeferenced and digitized.
 
-## Installation auf GitHub Pages
-Den gesamten Inhalt dieses Ordners in das Root-Verzeichnis des Repositories hochladen und vorhandene Dateien überschreiben.
+## Deployment
+Upload the complete folder contents to the repository root and overwrite existing files. GitHub Pages can continue to deploy from `main / root`.

@@ -8,14 +8,14 @@
   <meta name="description" content="MuchaGio Fishing Maps – Orientierungskarte für Neckar Abschnitt 5.">
   <title>MuchaGio Fishing Maps</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css'">
-  <link rel="stylesheet" href="styles.css?v=0.5.0">
+  <link rel="stylesheet" href="styles.css?v=0.7.0">
 </head>
 <body>
   <div id="app">
     <div id="map"></div>
 
     <aside id="sidebar" class="sidebar">
-      <div class="brand"><span class="brand-icon">◔</span><div><strong>MuchaGio</strong><small>Fishing Maps</small></div></div>
+      <div class="brand"><span class="brand-icon">◔</span><div><strong>MuchaGio</strong><small>Fishing Maps · v0.7.0</small></div></div>
       <section class="panel-section">
         <h2>Kartenebenen</h2>
         <label class="switch-row"><input id="allowedToggle" type="checkbox" checked><span class="switch"></span><span class="swatch green"></span>Angelbereiche (ca.)</label>
@@ -67,12 +67,22 @@
   </dialog>
 
   <dialog id="infoDialog" class="text-dialog">
-    <header class="dialog-head"><div><span class="kicker">MUCHAGIO MAPS</span><h2>Hinweis zur Karte</h2></div><button data-close-dialog type="button">×</button></header>
-    <div class="dialog-copy"><p>Die digitalen Bereiche dienen als schnelle Orientierung am Wasser. Sie ersetzen keine offizielle Gewässerkarte.</p><p>Vor dem Angeln bitte immer die Hege6-Unterlagen, die Gewässerordnung und die Beschilderung vor Ort prüfen.</p></div>
+    <header class="dialog-head"><div><span class="kicker">MUCHAGIO MAPS</span><h2>Info & Versionsstand</h2></div><button data-close-dialog type="button">×</button></header>
+    <div class="dialog-copy">
+      <div class="version-card">
+        <div><span>Aktuelle Version</span><strong id="appVersion">v0.7.0</strong></div>
+        <div><span>Build-Datum</span><strong id="buildDate">23.07.2026</strong></div>
+        <div><span>GIS-Status</span><strong class="status-silver">SILVER BETA</strong></div>
+      </div>
+      <p><strong>Neu in v0.7.0:</strong> Angelbereiche werden beim Laden aus echten OpenStreetMap-Wasserweg-Geometrien erzeugt. Freihandlinien über Land werden nicht mehr angezeigt.</p>
+      <p>Die Gewässerachse ist GIS-basiert. Anfang, Ende und erlaubte Uferseite bleiben bis zur vollständigen Georeferenzierung der Hege6-Unterlagen als Orientierung gekennzeichnet.</p>
+      <p>Vor dem Angeln bitte immer die Hege6-Unterlagen, die Gewässerordnung und die Beschilderung vor Ort prüfen.</p>
+      <p id="gisRuntimeStatus" class="runtime-status">GIS-Datenstatus wird geprüft …</p>
+    </div>
   </dialog>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js'"></script>
-  <script src="data/map-data.js?v=0.5.0"></script>
-  <script src="app.js?v=0.5.0"></script>
+  <script src="data/map-data.js?v=0.7.0"></script>
+  <script src="app.js?v=0.7.0"></script>
 </body>
 </html>

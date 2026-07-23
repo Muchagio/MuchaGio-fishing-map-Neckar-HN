@@ -30,8 +30,72 @@ document.getElementById('infoButton').addEventListener('click', () => infoDialog
 document.getElementById('rulesButton').addEventListener('click', () => infoDialog.showModal());
 infoDialog.querySelector('[data-close-dialog]').addEventListener('click', () => infoDialog.close());
 
+function setRuntimeStatus(text, state='loading') {
+  const el = document.getElementById('gisRuntimeStatus');
+  if (!el) return;
+  el.textContent = text;
+  el.dataset.state = state;
+}
+
 function popupHtml(title, note, sectionId, status) {
-  return `<div class="popup-badge ${status === 'warning' ? 'warning' : ''}">${status === 'allowed' ? 'ANGELBEREICH CA.' : 'PRÜFBEREICH CA.'}</div><div class="popup-title">${title}</div><div class="popup-copy">${note}<br><strong>Final immer mit den Originalunterlagen abgleichen.</strong></div><button class="popup-button" data-section="${sectionId}">Unterlagen ansehen</button>`;
+  return `<div class="popup-badge ${status === 'warning' ? 'warning' : ''}">${status === 'allowed' ? 'GIS-ANGELBEREICH' : 'PRÜFBEREICH CA.'}</div><div class="popup-title">${title}</div><div class="popup-copy">${note}<br><strong>Final immer mit den Originalunterlagen abgleichen.</strong></div><button class="popup-button" data-section="${sectionId}">Unterlagen ansehen</button>`;
+}
+
+const OVERPASS_ENDPOINTS = [
+  'https://overpass-api.de/api/interpreter',
+  'https://overpass.kumi.systems/api/interpreter',
+  'https://overpass.nchc.org.tw/api/interpreter'
+];
+
+function buildOverpassQuery(source) {
+  const [south, west, north, east] = source.bbox;
+  const typeRegex = source.types.join('|');
+  return `[out:json][timeout:30];(way["waterway"~"${typeRegex}"]["name"~"${source.nameRegex}",i](${south},${west},${north},${east}););out geom;`;
+}
+
+async function fetchOverpass(query) {
+  let lastError;
+  for (const endpoint of OVERPASS_ENDPOINTS) {
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+        body: `data=${encodeURIComponent(query)}`
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return await response.json();
+    } catch (error) {
+      lastError = error;
+    }
+  }
+  throw lastError || new Error('Overpass unavailable');
+}
+
+function osmElementsToLines(payload) {
+  return (payload.elements || [])
+    .filter(item => item.type === 'way' && Array.isArray(item.geometry) && item.geometry.length > 1)
+    .map(item => ({
+      id: item.id,
+      name: item.tags?.name || 'Gewässer',
+      coordinates: item.geometry.map(point => [point.lat, point.lon])
+    }));
+}
+
+async function loadOsmWaterGeometry(source) {
+  const cacheKey = `muchagio-osm-${data.meta.version}-${source.id}`;
+  try {
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) {
+      const parsed = JSON.parse(cached);
+      if (parsed.savedAt > Date.now() - 7 * 24 * 60 * 60 * 1000 && parsed.lines?.length) return parsed.lines;
+    }
+  } catch (_) {}
+
+  const payload = await fetchOverpass(buildOverpassQuery(source));
+  const lines = osmElementsToLines(payload);
+  if (!lines.length) throw new Error(`Keine OSM-Wassergeometrie für ${source.id}`);
+  try { localStorage.setItem(cacheKey, JSON.stringify({savedAt: Date.now(), lines})); } catch (_) {}
+  return lines;
 }
 
 function initMap() {
@@ -54,17 +118,31 @@ function initMap() {
       .bindPopup(`<div class="popup-badge">${section.number}</div><div class="popup-title">${section.title}</div><div class="popup-copy">${section.subtitle}</div><button class="popup-button" data-section="${section.id}">Unterlagen ansehen</button>`);
   });
 
-  data.allowedCorridors.forEach(corridor => {
-    corridor.coordinates.forEach(point => allBounds.extend(point));
-    L.polyline(corridor.coordinates, { color:'#1c7f48', weight:22, opacity:.28, lineCap:'round', lineJoin:'round' }).addTo(allowedLayer);
-    L.polyline(corridor.coordinates, { color:'#4ee3a0', weight:5, opacity:.98, lineCap:'round', lineJoin:'round', dashArray:'12 8' }).addTo(allowedLayer)
-      .bindPopup(popupHtml(corridor.title, corridor.note, corridor.sectionId, 'allowed'));
-  });
-
   data.warningZones.forEach(zone => {
     allBounds.extend(zone.center);
     L.circle(zone.center, { radius:zone.radius, color:'#ff5361', weight:3, opacity:.98, fillColor:'#ff5361', fillOpacity:.2, dashArray:'8 6' }).addTo(warningLayer)
       .bindPopup(popupHtml(zone.title, zone.note, zone.sectionId, 'warning'));
+  });
+
+  setRuntimeStatus('GIS-Wassergeometrien werden aus OpenStreetMap geladen …');
+  Promise.allSettled(data.osmWaterSources.map(async source => {
+    const lines = await loadOsmWaterGeometry(source);
+    lines.forEach(line => {
+      line.coordinates.forEach(point => allBounds.extend(point));
+      L.polyline(line.coordinates, { color:'#0a3d26', weight:18, opacity:.46, lineCap:'round', lineJoin:'round' }).addTo(allowedLayer);
+      L.polyline(line.coordinates, { color:'#4ee3a0', weight:5, opacity:.98, lineCap:'round', lineJoin:'round' }).addTo(allowedLayer)
+        .bindPopup(popupHtml(source.title, source.note, source.sectionId, 'allowed'));
+    });
+    return {source, count: lines.length};
+  })).then(results => {
+    const ok = results.filter(result => result.status === 'fulfilled');
+    const failed = results.length - ok.length;
+    if (ok.length) {
+      setRuntimeStatus(`GIS aktiv: ${ok.length}/${results.length} Gewässerbereiche aus OpenStreetMap geladen${failed ? ` · ${failed} Bereich(e) konnten nicht geladen werden` : ''}.`, failed ? 'warning' : 'ok');
+      map.fitBounds(allBounds.pad(.09));
+    } else {
+      setRuntimeStatus('GIS-Daten konnten aktuell nicht geladen werden. Es werden bewusst keine ungenauen Ersatzlinien angezeigt.', 'error');
+    }
   });
 
   map.on('popupopen', event => {
