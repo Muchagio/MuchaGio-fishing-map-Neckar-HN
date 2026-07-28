@@ -1,0 +1,25 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "besigheim-weir",
+        "type": "weir",
+        "title": "Wehr Besigheim",
+        "description": "Wehr an der Enz. Nach Hege6 gilt im Bereich von Schleusen-, Wehr- und Kraftwerksanlagen grundsätzlich 50 m oberhalb bis 50 m unterhalb, soweit Beschilderung nichts anderes bestimmt.",
+        "source": "OpenStreetMap-Bauwerk + Hege6-Vereinskarte",
+        "accuracy": "hoch",
+        "verified": true,
+        "icon": "≋"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.147809,
+          49.00334
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "besigheim-weir-review",
+        "type": "review_areas",
+        "title": "Prüfbereich: Wehr Besigheim",
+        "radiusM": 50,
+        "description": "Orientierung rund um das verifizierte Wehr. Die tatsächlichen Sperr- und Sicherheitsabstände ergeben sich aus der Originalkarte und der Beschilderung vor Ort.",
+        "source": "Hege6-Grundregel (50 m oberhalb/unterhalb)",
+        "verified": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.14781,
+          49.00334
+        ]
+      }
+    }
+  ]
+}

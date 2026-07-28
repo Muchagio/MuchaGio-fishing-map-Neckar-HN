@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#071923">
+  <meta name="description" content="MuchaGio Fishing Maps – digitale Angelkarten für den Neckar und mehr.">
+  <title>MuchaGio Fishing Maps</title>
+
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  <link rel="icon" type="image/png" href="assets/icons/icon-192.png">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css'">
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/app.css">
+</head>
+<body>
+<div id="app">
+  <div id="map"></div>
+
+  <!-- Brand -->
+  <div class="brand-card glass">
+    <div class="fish-mark">◔</div>
+    <div><strong>MuchaGio</strong><small>Fishing Maps</small></div>
+    <span id="versionBadge" class="version-badge">v2.0.0</span>
+  </div>
+
+  <!-- Sidebar (content built by src/ui/ui.js) -->
+  <aside id="sidebar" class="sidebar glass" aria-label="Ebenen und Kartenoptionen"></aside>
+  <button id="menuButton" class="mobile-menu glass" type="button" aria-label="Menü öffnen">☰</button>
+
+  <!-- Legend (items built by src/ui/ui.js) -->
+  <section class="legend-card glass" aria-label="Legende">
+    <h2>LEGENDE</h2>
+    <div id="legendItems"></div>
+  </section>
+
+  <button id="locateButton" class="locate-button glass" type="button" aria-label="Standort anzeigen">⌖</button>
+
+  <!-- Water switcher -->
+  <section class="water-switcher glass">
+    <span>Gewässer wechseln</span>
+    <div class="row">
+      <button id="prevWater" type="button">‹ vorheriges</button>
+      <select id="waterSelect" aria-label="Gewässer auswählen"></select>
+      <button id="nextWater" type="button">nächstes ›</button>
+    </div>
+  </section>
+
+  <button id="aboutButton" class="footer-button left glass" type="button">ⓘ Über diese Karte</button>
+  <button id="rulesButton" class="footer-button right glass" type="button">▤ Regeln &amp; Bestimmungen</button>
+  <button id="installButton" class="install-button" type="button" hidden>App installieren</button>
+
+  <!-- Marker detail card -->
+  <section id="detailCard" class="detail-card glass hidden" aria-live="polite">
+    <button id="closeDetail" class="close" type="button" aria-label="Schließen">×</button>
+    <div class="eyebrow" style="color:var(--layer-review)">DETAIL</div>
+    <h2 id="detailTitle"></h2>
+    <div id="detailLocation" class="location"></div>
+    <p id="detailNote"></p>
+    <strong>Final immer mit den Originalunterlagen abgleichen.</strong>
+    <div class="detail-grid">
+      <div><small>Art</small><b id="detailType"></b></div>
+      <div><small>Genauigkeit</small><b id="detailAccuracy"></b></div>
+      <div><small>Quelle</small><b id="detailSource"></b></div>
+      <div><small>Status</small><b id="detailVerified"></b></div>
+    </div>
+    <button id="detailDocs" class="primary-button" type="button">Originalunterlagen ansehen ↗</button>
+  </section>
+
+  <div id="backdrop" class="backdrop"></div>
+  <div id="loadError" class="load-error" hidden>Karte konnte nicht geladen werden.</div>
+</div>
+
+<!-- Reference gallery dialog -->
+<dialog id="referenceDialog">
+  <header>
+    <div>
+      <span class="eyebrow">ORIGINALUNTERLAGEN</span>
+      <h2 id="referenceTitle"></h2>
+      <p id="referenceSubtitle"></p>
+    </div>
+    <button id="closeReference" type="button" aria-label="Schließen">×</button>
+  </header>
+  <div id="gallery" class="gallery"></div>
+</dialog>
+
+<!-- Info dialog -->
+<dialog id="infoDialog">
+  <header>
+    <div><span class="eyebrow">MUCHAGIO MAPS</span><h2>Info &amp; Versionsstand</h2></div>
+    <button id="closeInfo" type="button" aria-label="Schließen">×</button>
+  </header>
+  <div class="dialog-copy">
+    <div class="version-grid">
+      <div><small>Version</small><b id="appVersion">v2.0.0</b></div>
+      <div><small>Build</small><b id="buildDate"></b></div>
+      <div><small>Status</small><b id="releaseStatus"></b></div>
+    </div>
+    <p>Die Karte dient der Orientierung. Maßgeblich bleiben die offiziellen Hege6-Unterlagen,
+       Beschilderungen und Bestimmungen vor Ort.</p>
+    <p><b>Architektur v2.0:</b> Angelbereiche, Marker und Prüfbereiche sind jetzt eigenständige
+       GeoJSON-Daten. OpenStreetMap dient ausschließlich als Hintergrundkarte. Neue Gewässer und
+       Ebenen werden über Daten ergänzt, nicht über Code.</p>
+    <p id="runtimeStatus" class="status-line">GIS-Datenstatus wird geprüft …</p>
+  </div>
+</dialog>
+
+<!-- Leaflet must be a classic script so window.L exists before the module runs -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js'"></script>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

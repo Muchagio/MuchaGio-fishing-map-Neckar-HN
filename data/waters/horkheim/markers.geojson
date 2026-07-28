@@ -1,0 +1,45 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "horkheim-lock",
+        "type": "lock",
+        "title": "Schleuse Horkheim",
+        "description": "Schleuse Horkheim (km 117,54). Rechtes Ufer bis zur Schleuse befischbar, außerhalb der Schleusenanlage.",
+        "source": "OpenStreetMap-Bauwerk + Hege6-Vereinskarte",
+        "accuracy": "hoch",
+        "verified": true,
+        "icon": "⚙"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.165493,
+          49.117297
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "horkheim-weir",
+        "type": "weir",
+        "title": "Wehr Horkheim",
+        "description": "Wehr der Staustufe Horkheim. Wehr-/Schleusenanlage gesperrt.",
+        "source": "OpenStreetMap-Bauwerk + Hege6-Vereinskarte",
+        "accuracy": "hoch",
+        "verified": true,
+        "icon": "≋"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.165882,
+          49.117832
+        ]
+      }
+    }
+  ]
+}

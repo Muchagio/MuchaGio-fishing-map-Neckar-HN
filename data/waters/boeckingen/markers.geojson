@@ -1,0 +1,45 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "heilbronn-lock",
+        "type": "lock",
+        "title": "Schleuse Heilbronn",
+        "description": "Schleuse an der Staustufe Heilbronn, Beginn des Böckinger Oberwassers. Schleusenanlage gesperrt.",
+        "source": "OpenStreetMap-Bauwerk + Hege6-Vereinskarte",
+        "accuracy": "hoch",
+        "verified": true,
+        "icon": "⚙"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.200109,
+          49.137508
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "heilbronn-weir",
+        "type": "weir",
+        "title": "Wehr Heilbronn",
+        "description": "Wehr der Staustufe Heilbronn. Wehrbereich gesperrt; maßgeblich sind Beschilderung und Originalkarte.",
+        "source": "OpenStreetMap-Bauwerk + Hege6-Vereinskarte",
+        "accuracy": "hoch",
+        "verified": true,
+        "icon": "≋"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.201025,
+          49.137961
+        ]
+      }
+    }
+  ]
+}

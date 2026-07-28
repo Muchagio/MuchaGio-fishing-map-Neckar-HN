@@ -1,0 +1,284 @@
+{
+  "meta": {
+    "platform": "MuchaGio Fishing Maps",
+    "version": "2.1.0",
+    "buildDate": "2026-07-28",
+    "release": "PHASE 2 · DATENGETRIEBEN + VERIFIZIERTE BAUWERKE",
+    "dataDisclaimer": "Orientierungsdarstellung. Maßgeblich sind die offiziellen Hege6-Unterlagen, Beschilderungen und Bestimmungen vor Ort. Grüne Linien zeigen die Gewässergeometrie, jedoch keine zentimetergenau vermessenen Ufer- oder Rechtsgrenzen."
+  },
+  "map": {
+    "defaultCenter": [49.073, 9.165],
+    "defaultZoom": 11,
+    "minZoom": 8,
+    "maxZoom": 19,
+    "defaultBasemap": "satellite",
+    "fitBoundsPadding": 0.08
+  },
+  "basemaps": [
+    {
+      "id": "satellite",
+      "label": "Satellit",
+      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{x}/{y}.png",
+      "attribution": "Tiles &copy; Esri",
+      "maxZoom": 19,
+      "overlay": {
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{x}/{y}.png",
+        "opacity": 0.8
+      }
+    },
+    {
+      "id": "street",
+      "label": "Karte",
+      "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      "attribution": "&copy; OpenStreetMap-Mitwirkende",
+      "maxZoom": 19
+    }
+  ],
+  "layerTypes": [
+    {
+      "id": "sections",
+      "label": "Angelbereiche",
+      "group": "Gewässer",
+      "source": "section",
+      "geometry": "line",
+      "colorVar": "--layer-sections",
+      "icon": "⌁",
+      "legend": "Gewässergeometrie innerhalb des offiziellen Orientierungsraums",
+      "defaultVisible": true,
+      "opacityControl": true
+    },
+    {
+      "id": "review_areas",
+      "label": "Prüfbereiche",
+      "group": "Orientierung",
+      "source": "review_areas",
+      "geometry": "circle",
+      "colorVar": "--layer-review",
+      "icon": "⌾",
+      "legend": "Orientierungsradius rund um ein verifiziertes Bauwerk – keine Rechtsgrenze",
+      "defaultVisible": true
+    },
+    {
+      "id": "lock",
+      "label": "Schleusen",
+      "group": "Bauwerke",
+      "source": "markers",
+      "geometry": "point",
+      "colorVar": "--layer-lock",
+      "icon": "⚙",
+      "legend": "Schleusenanlage",
+      "defaultVisible": true
+    },
+    {
+      "id": "weir",
+      "label": "Wehre",
+      "group": "Bauwerke",
+      "source": "markers",
+      "geometry": "point",
+      "colorVar": "--layer-weir",
+      "icon": "≋",
+      "legend": "Wehr / Kraftwerksanlage",
+      "defaultVisible": true
+    },
+    {
+      "id": "parking",
+      "label": "Parkplätze",
+      "group": "Infrastruktur",
+      "source": "markers",
+      "geometry": "point",
+      "colorVar": "--layer-parking",
+      "icon": "P",
+      "legend": "Parkmöglichkeit",
+      "defaultVisible": true
+    },
+    {
+      "id": "access",
+      "label": "Zugänge",
+      "group": "Infrastruktur",
+      "source": "markers",
+      "geometry": "point",
+      "colorVar": "--layer-access",
+      "icon": "↧",
+      "legend": "Uferzugang / Einstieg",
+      "defaultVisible": true
+    },
+    {
+      "id": "slipway",
+      "label": "Slipanlagen",
+      "group": "Infrastruktur",
+      "source": "markers",
+      "geometry": "point",
+      "colorVar": "--layer-slipway",
+      "icon": "⛵",
+      "legend": "Bootsrampe / Slip",
+      "defaultVisible": true
+    },
+    {
+      "id": "viewpoint",
+      "label": "Aussichtspunkte",
+      "group": "Orientierung",
+      "source": "markers",
+      "geometry": "point",
+      "colorVar": "--layer-viewpoint",
+      "icon": "◉",
+      "legend": "Aussichts- / Orientierungspunkt",
+      "defaultVisible": true
+    },
+    {
+      "id": "information",
+      "label": "Informationen",
+      "group": "Orientierung",
+      "source": "markers",
+      "geometry": "point",
+      "colorVar": "--layer-information",
+      "icon": "ⓘ",
+      "legend": "Informationstafel / Hinweis",
+      "defaultVisible": true
+    },
+    {
+      "id": "warning",
+      "label": "Warnungen",
+      "group": "Sicherheit",
+      "source": "markers",
+      "geometry": "point",
+      "colorVar": "--layer-warning",
+      "icon": "⚠",
+      "legend": "Gefahren- / Sicherheitshinweis",
+      "defaultVisible": true
+    },
+    {
+      "id": "fishing_spot",
+      "label": "Angelstellen",
+      "group": "Angeln",
+      "source": "markers",
+      "geometry": "point",
+      "colorVar": "--layer-fishing-spot",
+      "icon": "🎣",
+      "legend": "Empfohlene Angelstelle",
+      "defaultVisible": true
+    },
+    {
+      "id": "no_fishing",
+      "label": "Angelverbot",
+      "group": "Angeln",
+      "source": "markers",
+      "geometry": "point",
+      "colorVar": "--layer-no-fishing",
+      "icon": "⊘",
+      "legend": "Schon- / Sperrbereich – kein Angeln",
+      "defaultVisible": true
+    }
+  ],
+  "roadmapLayerTypes": [
+    "photos", "depth_map", "heat_map", "gpx_track", "catch_report"
+  ],
+  "waters": [
+    {
+      "id": "boeckingen",
+      "number": 1,
+      "name": "Oberwasser HN-Böckingen",
+      "short": "Böckingen",
+      "subtitle": "km 113,53 bis km 114,11",
+      "rules": {
+        "fishable": "Rechtes Ufer zwischen Staustufe/Schleuse Heilbronn und Böckinger Brücke.",
+        "closed": "Schleusen-/Wehrbereich Heilbronn und gegenüberliegendes Ufer gesperrt.",
+        "note": "Parkmöglichkeit am befischbaren Uferabschnitt (siehe Vereinskarte)."
+      },
+      "region": "Neckar",
+      "waterType": "river",
+      "center": [49.1485, 9.2014],
+      "zoom": 15,
+      "officialUrl": "https://www.hege6.de/unser-gew%C3%A4sser/oberwasser-hn-b%C3%B6ckingen/",
+      "references": [
+        ["assets/reference/boeckingen-karte.png", "Vereinskarte · Oberwasser HN-Böckingen"],
+        ["assets/reference/boeckingen-detail.png", "Fotoreferenz · Schleuse Heilbronn"]
+      ],
+      "layers": {
+        "section": "data/waters/boeckingen/section.geojson",
+        "markers": "data/waters/boeckingen/markers.geojson",
+        "review_areas": "data/waters/boeckingen/review-areas.geojson"
+      }
+    },
+    {
+      "id": "horkheim",
+      "number": 2,
+      "name": "Schifffahrtskanal Horkheim",
+      "short": "Horkheim",
+      "subtitle": "rechtes Ufer km 116,92–119,98 · linkes Ufer km 117,70–119,84",
+      "rules": {
+        "fishable": "Rechtes Ufer des Schifffahrtskanals befischbar, aufwärts bis Schleuse Horkheim, außerhalb der Schleusenanlage.",
+        "closed": "Linkes Ufer gesperrt; Schleusen- und Wehranlage Horkheim gesperrt.",
+        "note": "Bank­seite laut Hege6-Karte und Vor-Ort-Beschilderung maßgeblich."
+      },
+      "region": "Neckar",
+      "waterType": "canal",
+      "center": [49.1125, 9.1789],
+      "zoom": 14,
+      "officialUrl": "https://www.hege6.de/unser-gew%C3%A4sser/kanal-horkheim/",
+      "references": [
+        ["assets/reference/horkheim-01.png", "Vereinskarte · Horkheim 1"],
+        ["assets/reference/horkheim-02.png", "Vereinskarte · Horkheim 2"],
+        ["assets/reference/horkheim-03.png", "Fotoreferenz · oberhalb der Schleuse"],
+        ["assets/reference/horkheim-04.png", "Fotoreferenz · unterhalb der Schleuse"]
+      ],
+      "layers": {
+        "section": "data/waters/horkheim/section.geojson",
+        "markers": "data/waters/horkheim/markers.geojson",
+        "review_areas": "data/waters/horkheim/review-areas.geojson"
+      }
+    },
+    {
+      "id": "lauffen",
+      "number": 3,
+      "name": "Neckar bei Lauffen bis Besigheim",
+      "short": "Lauffen",
+      "subtitle": "km 122,75 bis km 136,15",
+      "rules": {
+        "fishable": "Ausgewiesener grüner Bereich entlang der Neckarschleife Lauffen.",
+        "closed": "Staustufe/Schleuse Lauffen und markierte Uferabschnitte gesperrt.",
+        "note": "Ostgrenze am Schild „Gewässergrenze beachten“ – Beschilderung beachten."
+      },
+      "region": "Neckar",
+      "waterType": "river",
+      "center": [49.0475, 9.1470],
+      "zoom": 12,
+      "officialUrl": "https://www.hege6.de/unser-gew%C3%A4sser/neckar-bei-lauffen/",
+      "references": [
+        ["assets/reference/lauffen-karte.png", "Vereinskarte · Neckar bei Lauffen"]
+      ],
+      "layers": {
+        "section": "data/waters/lauffen/section.geojson",
+        "markers": "data/waters/lauffen/markers.geojson",
+        "review_areas": "data/waters/lauffen/review-areas.geojson"
+      }
+    },
+    {
+      "id": "besigheim",
+      "number": 4,
+      "name": "Mündung Enz bei Besigheim",
+      "short": "Besigheim",
+      "subtitle": "ab Mündung ca. 320 m aufwärts · ab B27-Brücke ca. 150 m",
+      "rules": {
+        "fishable": "Enz ab Mündung ca. 320 m aufwärts; ab Brücke B27 ca. 150 m.",
+        "closed": "Wehrbereich Besigheim; Grenze zu Hege7 beachten.",
+        "note": "Grenzmarkierung: Pfahl im Wasser ca. 150 m nach Brücke B27."
+      },
+      "region": "Enz",
+      "waterType": "river",
+      "center": [49.0010, 9.1445],
+      "zoom": 16,
+      "officialUrl": "https://www.hege6.de/unser-gew%C3%A4sser/m%C3%BCndung-enz-besigheim/",
+      "references": [
+        ["assets/reference/besigheim-01.png", "Fotoreferenz · Enz / B27"],
+        ["assets/reference/besigheim-02.png", "Vereinskarte · Besigheim / Hege6–Hege7"],
+        ["assets/reference/besigheim-03.png", "Fotoreferenz · Grenzmarkierung"],
+        ["assets/reference/besigheim-04.png", "Fotoreferenz · Enz flussabwärts"]
+      ],
+      "layers": {
+        "section": "data/waters/besigheim/section.geojson",
+        "markers": "data/waters/besigheim/markers.geojson",
+        "review_areas": "data/waters/besigheim/review-areas.geojson"
+      }
+    }
+  ]
+}

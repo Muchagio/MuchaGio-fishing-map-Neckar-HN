@@ -1,0 +1,45 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "lauffen-lock",
+        "type": "lock",
+        "title": "Schleuse Lauffen",
+        "description": "Schleuse der Staustufe Lauffen. Schleusenanlage gesperrt.",
+        "source": "OpenStreetMap-Bauwerk + Hege6-Vereinskarte",
+        "accuracy": "hoch",
+        "verified": true,
+        "icon": "⚙"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.162161,
+          49.072587
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "lauffen-weir",
+        "type": "weir",
+        "title": "Wehr Lauffen",
+        "description": "Wehr der Staustufe Lauffen. Wehrbereich gesperrt.",
+        "source": "OpenStreetMap-Bauwerk + Hege6-Vereinskarte",
+        "accuracy": "hoch",
+        "verified": true,
+        "icon": "≋"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1637,
+          49.081345
+        ]
+      }
+    }
+  ]
+}

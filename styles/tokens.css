@@ -1,0 +1,86 @@
+/* =============================================================
+   MuchaGio Fishing Maps — Design Tokens
+   SINGLE SOURCE OF TRUTH for colors, spacing, typography, z-index.
+   JavaScript reads these same variables (see src/core/tokens.js),
+   so colors never drift between CSS and JS.
+   ============================================================= */
+:root {
+  color-scheme: dark;
+
+  /* --- Surfaces --- */
+  --bg: #061923;
+  --surface-1: rgba(5, 26, 36, 0.97);
+  --surface-2: rgba(5, 21, 31, 0.93);
+  --surface-solid: #071923;
+  --surface-inset: #0b2733;
+  --line: rgba(167, 206, 218, 0.22);
+  --line-soft: rgba(255, 255, 255, 0.07);
+
+  /* --- Text --- */
+  --text: #f6fafb;
+  --text-muted: #b7c7cd;
+
+  /* --- Brand / accent --- */
+  --accent: #49e59d;
+  --accent-strong: #267b55;
+
+  /* --- Semantic --- */
+  --danger: #ff4e59;
+  --map-water: #17313a;
+
+  /* --- Layer colors (keys match registry.json colorVar) --- */
+  --layer-sections: #49e59d;
+  --layer-review: #a66cf2;
+  --layer-lock: #3187ed;
+  --layer-weir: #ff8f3f;
+  --layer-parking: #4f9bff;
+  --layer-access: #2fb0a6;
+  --layer-slipway: #5b8def;
+  --layer-viewpoint: #f2c14e;
+  --layer-information: #46b1ff;
+  --layer-warning: #ff4e59;
+  --layer-fishing-spot: #37d67a;
+  --layer-no-fishing: #e23b46;
+
+  /* --- Geometry rendering --- */
+  --section-casing: #052d20;
+  --section-casing-weight: 22;
+  --section-line-weight: 6;
+
+  /* --- Spacing scale --- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+
+  /* --- Radii --- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 16px;
+  --radius-pill: 999px;
+
+  /* --- Elevation --- */
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.46);
+  --shadow-pin: 0 8px 20px rgba(0, 0, 0, 0.5);
+
+  /* --- Type --- */
+  --font-ui: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* --- Motion --- */
+  --transition-fast: 0.2s ease;
+  --transition-panel: 0.25s ease;
+
+  /* --- Z-index scale (avoid magic z-index numbers) --- */
+  --z-map: 0;
+  --z-panel: 970;
+  --z-legend: 980;
+  --z-sidebar: 990;
+  --z-brand: 1000;
+  --z-detail: 1050;
+  --z-backdrop: 1085;
+  --z-dialog: 1100;
+  --z-error: 2000;
+}
