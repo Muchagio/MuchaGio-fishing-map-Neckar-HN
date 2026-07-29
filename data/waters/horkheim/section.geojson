@@ -1,1 +1,138 @@
-{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"osm_id":14858790,"name":"Neckar","waterway":"river","verified":false,"source":"OSM snapshot 2026-07-28"},"geometry":{"type":"LineString","coordinates":[[9.182454,49.120211],[9.190117,49.120868],[9.191618,49.121246],[9.193413,49.122122],[9.194872,49.123148],[9.196011,49.124125],[9.197905,49.127381],[9.198511,49.128972],[9.199573,49.133634]]}},{"type":"Feature","properties":{"osm_id":108813323,"name":"Mühlkanal","waterway":"canal","verified":false,"source":"OSM snapshot 2026-07-28"},"geometry":{"type":"LineString","coordinates":[[9.181158,49.11548],[9.18172,49.116434],[9.18149,49.116856]]}},{"type":"Feature","properties":{"osm_id":108816643,"name":"Mühlkanal","waterway":"canal","verified":false,"source":"OSM snapshot 2026-07-28"},"geometry":{"type":"LineString","coordinates":[[9.179821,49.110876],[9.179097,49.112588],[9.179175,49.112896]]}},{"type":"Feature","properties":{"osm_id":108816644,"name":"Mühlkanal","waterway":"canal","verified":false,"source":"OSM snapshot 2026-07-28"},"geometry":{"type":"LineString","coordinates":[[9.180569,49.114772],[9.180766,49.11488]]}},{"type":"Feature","properties":{"osm_id":142891028,"name":"Neckar","waterway":"river","verified":false,"source":"OSM snapshot 2026-07-28"},"geometry":{"type":"LineString","coordinates":[[9.156576,49.095317],[9.152947,49.098516],[9.152069,49.099936],[9.150423,49.101233],[9.149716,49.102244],[9.149167,49.104277],[9.14899,49.107123],[9.149219,49.10856],[9.149663,49.109731],[9.150258,49.110625],[9.151594,49.11119],[9.15307,49.111523],[9.155301,49.112666],[9.156092,49.113239],[9.159122,49.116301],[9.160731,49.118212],[9.16163,49.118765],[9.165097,49.119741],[9.169559,49.120067],[9.17145,49.119767],[9.173474,49.118984]]}},{"type":"Feature","properties":{"osm_id":166364592,"name":"Neckar","waterway":"river","verified":false,"source":"OSM snapshot 2026-07-28"},"geometry":{"type":"LineString","coordinates":[[9.166698,49.117773],[9.168449,49.118546],[9.174503,49.119015],[9.182454,49.120211]]}},{"type":"Feature","properties":{"osm_id":202972736,"name":"Mühlkanal","waterway":"canal","verified":false,"source":"OSM snapshot 2026-07-28"},"geometry":{"type":"LineString","coordinates":[[9.179222,49.11298],[9.180569,49.114772]]}},{"type":"Feature","properties":{"osm_id":202972737,"name":"Mühlkanal","waterway":"canal","verified":false,"source":"OSM snapshot 2026-07-28"},"geometry":{"type":"LineString","coordinates":[[9.179175,49.112896],[9.179222,49.11298]]}},{"type":"Feature","properties":{"osm_id":202972738,"name":"Mühlkanal","waterway":"canal","verified":false,"source":"OSM snapshot 2026-07-28"},"geometry":{"type":"LineString","coordinates":[[9.180935,49.117169],[9.180686,49.117237]]}},{"type":"Feature","properties":{"osm_id":202972739,"name":"Mühlkanal","waterway":"canal","verified":false,"source":"OSM snapshot 2026-07-28"},"geometry":{"type":"LineString","coordinates":[[9.18149,49.116856],[9.180935,49.117169]]}},{"type":"Feature","properties":{"osm_id":308761230,"name":"Mühlkanal","waterway":"canal","verified":false,"source":"OSM snapshot 2026-07-28"},"geometry":{"type":"LineString","coordinates":[[9.18111,49.115402],[9.181158,49.11548]]}},{"type":"Feature","properties":{"osm_id":308761231,"name":"Mühlkanal","waterway":"canal","verified":false,"source":"OSM snapshot 2026-07-28"},"geometry":{"type":"LineString","coordinates":[[9.180766,49.11488],[9.18111,49.115402]]}}]}
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Neckar-Schifffahrtskanal",
+        "extent": "km 116,92–119,98",
+        "bank": "rechtes Ufer befischbar, linkes gesperrt",
+        "quality": "silber",
+        "verified": false,
+        "source": "Hege6-Vereinskarte (km/Ufer) + OSM volle Auflösung, auf Extent zugeschnitten",
+        "note": "Mittellinie im offiziellen km-Bereich. Bitte auf Satellit prüfen; exakte Uferlinie final via QGIS-Georeferenzierung."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            9.15478,
+            49.098056
+          ],
+          [
+            9.154742,
+            49.09812
+          ],
+          [
+            9.153782,
+            49.099617
+          ],
+          [
+            9.153515,
+            49.100125
+          ],
+          [
+            9.153424,
+            49.100326
+          ],
+          [
+            9.15292,
+            49.101712
+          ],
+          [
+            9.152828,
+            49.102234
+          ],
+          [
+            9.152803,
+            49.103475
+          ],
+          [
+            9.15284,
+            49.104462
+          ],
+          [
+            9.153093,
+            49.105344
+          ],
+          [
+            9.153697,
+            49.106977
+          ],
+          [
+            9.153996,
+            49.107598
+          ],
+          [
+            9.155075,
+            49.10941
+          ],
+          [
+            9.156408,
+            49.11075
+          ],
+          [
+            9.15679,
+            49.111138
+          ],
+          [
+            9.158277,
+            49.112635
+          ],
+          [
+            9.159695,
+            49.11406
+          ],
+          [
+            9.161547,
+            49.115788
+          ],
+          [
+            9.164378,
+            49.116864
+          ],
+          [
+            9.164539,
+            49.117031
+          ],
+          [
+            9.164749,
+            49.117101
+          ],
+          [
+            9.166166,
+            49.117656
+          ],
+          [
+            9.166321,
+            49.11771
+          ],
+          [
+            9.166482,
+            49.117778
+          ],
+          [
+            9.166698,
+            49.117773
+          ],
+          [
+            9.168449,
+            49.118546
+          ],
+          [
+            9.171774,
+            49.118846
+          ],
+          [
+            9.172321,
+            49.118887
+          ],
+          [
+            9.172584,
+            49.118909
+          ]
+        ]
+      }
+    }
+  ]
+}
