@@ -1,9 +1,9 @@
 {
   "meta": {
     "platform": "MuchaGio Fishing Maps",
-    "version": "2.1.0",
-    "buildDate": "2026-07-28",
-    "release": "PHASE 2 · DATENGETRIEBEN + VERIFIZIERTE BAUWERKE",
+    "version": "2.1.1",
+    "buildDate": "2026-07-29",
+    "release": "PHASE 2 · SATELLIT-KACHEL-FIX (Esri {z}/{y}/{x})",
     "dataDisclaimer": "Orientierungsdarstellung. Maßgeblich sind die offiziellen Hege6-Unterlagen, Beschilderungen und Bestimmungen vor Ort. Grüne Linien zeigen die Gewässergeometrie, jedoch keine zentimetergenau vermessenen Ufer- oder Rechtsgrenzen."
   },
   "map": {
@@ -18,11 +18,11 @@
     {
       "id": "satellite",
       "label": "Satellit",
-      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{x}/{y}.png",
+      "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       "attribution": "Tiles &copy; Esri",
       "maxZoom": 19,
       "overlay": {
-        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{x}/{y}.png",
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
         "opacity": 0.8
       }
     },
