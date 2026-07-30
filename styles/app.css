@@ -98,6 +98,20 @@ button, input, select { font: inherit; }
 }
 .rule-note { color: var(--text-muted); font-size: 12px; margin-top: 6px; }
 
+/* --- Live water level (PEGELONLINE) --- */
+.water-level {
+  margin: 8px 0 4px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 3px solid var(--layer-information);
+  font-size: 13px;
+  color: var(--text);
+}
+.water-level[data-state="high"] { border-left-color: var(--danger); }
+.water-level[data-state="low"] { border-left-color: var(--layer-viewpoint); }
+.water-level[data-state="normal"] { border-left-color: var(--accent); }
+
 /* --- Layer groups --- */
 .layer-group-title {
   font-size: 12px; font-weight: 800; letter-spacing: 0.06em;

@@ -1,8 +1,8 @@
 /* MuchaGio Fishing Maps — Service Worker
  *
  * Strategy:
- *  - App shell + same-origin assets/data: stale-while-revalidate
- *    (instant load, refreshes in background, works offline after first visit).
+ *  - App shell + same-origin assets/data: network-first (always the latest
+ *    version when online; cache fallback so it still works offline).
  *  - Map tiles (Esri / OSM): network-first with cache fallback and a size
  *    cap — this is the foundation for the "Offline Maps" roadmap item:
  *    every tile you view online becomes available offline.
@@ -12,7 +12,7 @@
  */
 'use strict';
 
-const CACHE_VERSION = 'v2.5.0';
+const CACHE_VERSION = 'v2.6.0';
 const STATIC_CACHE = `muchagio-static-${CACHE_VERSION}`;
 const TILE_CACHE = `muchagio-tiles-${CACHE_VERSION}`;
 const TILE_CACHE_LIMIT = 600;
@@ -97,24 +97,48 @@ async function staleWhileRevalidate(request) {
   return cached || network || fetch(request);
 }
 
+// Network-first: always the freshest version when online (so updates appear
+// without a hard reload); falls back to cache when offline.
+async function networkFirst(request) {
+  const cache = await caches.open(STATIC_CACHE);
+  try {
+    const response = await fetch(request);
+    if (response && response.status === 200 && response.type !== 'opaque') {
+      cache.put(request, response.clone());
+    }
+    return response;
+  } catch (_) {
+    const cached = await cache.match(request);
+    if (cached) return cached;
+    throw new Error('offline und nicht im Cache');
+  }
+}
+
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   if (request.method !== 'GET') return;
 
   const url = new URL(request.url);
 
+  // Map tiles: network-first with cache fallback (offline-maps foundation).
   if (isTileRequest(url)) {
     event.respondWith(networkFirstTile(request));
     return;
   }
 
-  // Navigation requests fall back to the cached shell when offline.
+  // App navigations: network-first, cached shell as offline fallback.
   if (request.mode === 'navigate') {
-    event.respondWith(
-      staleWhileRevalidate(request).catch(() => caches.match('./index.html'))
-    );
+    event.respondWith(networkFirst(request).catch(() => caches.match('./index.html')));
     return;
   }
 
+  // Same-origin app shell + data (HTML, JS, CSS, registry, GeoJSON):
+  // network-first, so a new deploy is visible immediately when online.
+  if (url.origin === self.location.origin) {
+    event.respondWith(networkFirst(request));
+    return;
+  }
+
+  // Cross-origin libraries (e.g. Leaflet CDN): cache-first for speed.
   event.respondWith(staleWhileRevalidate(request));
 });

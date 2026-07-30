@@ -6,6 +6,7 @@ import { colorFor } from '../core/tokens.js';
 import { persist } from '../core/store.js';
 import { STORAGE, DEFAULTS } from '../core/constants.js';
 import { flyToWater } from '../map/mapController.js';
+import { fetchWaterLevel, formatWaterLevel } from '../features/waterLevel.js';
 import { t } from '../i18n.js';
 
 /* tiny DOM helper */
@@ -30,6 +31,7 @@ export function initUI({ registry, map, layerManager, basemapManager, dialogs })
   const sidebar = $('#sidebar');
 
   let currentIndex = clampIndex(persist.read(STORAGE.lastWater, 0));
+  let levelToken = 0; // guards async water-level updates against fast section switches
   const waters = registry.waters;
   const currentWater = () => waters[currentIndex];
 
@@ -163,7 +165,27 @@ export function initUI({ registry, map, layerManager, basemapManager, dialogs })
       h('p', { text: t('chrome.subtitleFallback') }),
     ];
     if (w.rules) children.push(rulesBlock(w.rules));
+    if (w.pegel) children.push(h('div', { class: 'water-level', id: 'waterLevel', text: 'Pegel wird geladen …' }));
     $('#sbMeta').replaceChildren(...children);
+    if (w.pegel) loadWaterLevel(w);
+  }
+
+  // Live gauge reading (PEGELONLINE). Token guards against fast section switches.
+  async function loadWaterLevel(w) {
+    const token = ++levelToken;
+    try {
+      const data = await fetchWaterLevel(w.pegel.uuid);
+      if (token !== levelToken) return;
+      const el = $('#waterLevel');
+      if (el) {
+        el.innerHTML = formatWaterLevel(w.pegel.name, data);
+        el.dataset.state = data.state;
+      }
+    } catch (_) {
+      if (token !== levelToken) return;
+      const el = $('#waterLevel');
+      if (el) el.textContent = `Pegel ${w.pegel.name}: nicht verfügbar`;
+    }
   }
 
   // Official Hege6 fishable / closed rules for the current water.
