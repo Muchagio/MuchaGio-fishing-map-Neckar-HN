@@ -40,6 +40,101 @@
           49.137961
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "boeckingen-parking-1",
+        "type": "parking",
+        "title": "Parkplatz",
+        "description": "Parkmöglichkeit in Ufernähe (ca. 78 m zur Angelstrecke).",
+        "source": "OpenStreetMap",
+        "verified": false,
+        "icon": "P"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.199987,
+          49.141477
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "boeckingen-parking-2",
+        "type": "parking",
+        "title": "Parkplatz",
+        "description": "Parkmöglichkeit in Ufernähe (ca. 116 m zur Angelstrecke).",
+        "source": "OpenStreetMap",
+        "verified": false,
+        "icon": "P"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.202845,
+          49.14332
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "boeckingen-parking-3",
+        "type": "parking",
+        "title": "Parkplatz",
+        "description": "Parkmöglichkeit in Ufernähe (ca. 119 m zur Angelstrecke).",
+        "source": "OpenStreetMap",
+        "verified": false,
+        "icon": "P"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.198867,
+          49.138867
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "boeckingen-parking-4",
+        "type": "parking",
+        "title": "Theresienwiese",
+        "description": "Parkmöglichkeit in Ufernähe (ca. 158 m zur Angelstrecke).",
+        "source": "OpenStreetMap",
+        "verified": false,
+        "icon": "P"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.202865,
+          49.139702
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "boeckingen-parking-5",
+        "type": "parking",
+        "title": "Parkplatz",
+        "description": "Parkmöglichkeit in Ufernähe (ca. 194 m zur Angelstrecke).",
+        "source": "OpenStreetMap",
+        "verified": false,
+        "icon": "P"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.202978,
+          49.137774
+        ]
+      }
     }
   ]
 }

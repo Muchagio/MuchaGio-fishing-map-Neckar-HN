@@ -20,6 +20,25 @@
           49.00334
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "besigheim-parking-1",
+        "type": "parking",
+        "title": "Parkplatz Autohaus Blatter",
+        "description": "Parkmöglichkeit in Ufernähe (ca. 239 m zur Angelstrecke).",
+        "source": "OpenStreetMap",
+        "verified": false,
+        "icon": "P"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.142905,
+          49.003265
+        ]
+      }
     }
   ]
 }

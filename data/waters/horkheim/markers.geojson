@@ -40,6 +40,101 @@
           49.117832
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "horkheim-slipway-1",
+        "type": "slipway",
+        "title": "Slipanlage / Zugang",
+        "description": "Bootsrampe / Uferzugang (ca. 29 m zur Angelstrecke).",
+        "source": "OpenStreetMap",
+        "verified": false,
+        "icon": "⛵"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.168662,
+          49.118826
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "horkheim-slipway-2",
+        "type": "slipway",
+        "title": "Slipanlage / Zugang",
+        "description": "Bootsrampe / Uferzugang (ca. 46 m zur Angelstrecke).",
+        "source": "OpenStreetMap",
+        "verified": false,
+        "icon": "⛵"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.166482,
+          49.118193
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "horkheim-parking-1",
+        "type": "parking",
+        "title": "Parkplatz",
+        "description": "Parkmöglichkeit in Ufernähe (ca. 82 m zur Angelstrecke).",
+        "source": "OpenStreetMap",
+        "verified": false,
+        "icon": "P"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.165036,
+          49.118074
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "horkheim-parking-2",
+        "type": "parking",
+        "title": "Parkplatz",
+        "description": "Parkmöglichkeit in Ufernähe (ca. 112 m zur Angelstrecke).",
+        "source": "OpenStreetMap",
+        "verified": false,
+        "icon": "P"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.16541,
+          49.116115
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "horkheim-slipway-3",
+        "type": "slipway",
+        "title": "Slipanlage / Zugang",
+        "description": "Bootsrampe / Uferzugang (ca. 268 m zur Angelstrecke).",
+        "source": "OpenStreetMap",
+        "verified": false,
+        "icon": "⛵"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.160223,
+          49.118072
+        ]
+      }
     }
   ]
 }

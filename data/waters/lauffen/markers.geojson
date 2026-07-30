@@ -40,6 +40,101 @@
           49.081345
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "lauffen-slipway-1",
+        "type": "slipway",
+        "title": "Slipanlage / Zugang",
+        "description": "Bootsrampe / Uferzugang (ca. 39 m zur Angelstrecke).",
+        "source": "OpenStreetMap",
+        "verified": false,
+        "icon": "⛵"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.15927,
+          49.012425
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "lauffen-slipway-2",
+        "type": "slipway",
+        "title": "Slipanlage / Zugang",
+        "description": "Bootsrampe / Uferzugang (ca. 41 m zur Angelstrecke).",
+        "source": "OpenStreetMap",
+        "verified": false,
+        "icon": "⛵"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.150887,
+          49.034657
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "lauffen-parking-1",
+        "type": "parking",
+        "title": "Parkplatz bei der Schiffsschleuse",
+        "description": "Parkmöglichkeit in Ufernähe (ca. 49 m zur Angelstrecke).",
+        "source": "OpenStreetMap",
+        "verified": false,
+        "icon": "P"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.153644,
+          49.006831
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "lauffen-parking-2",
+        "type": "parking",
+        "title": "Parkplatz",
+        "description": "Parkmöglichkeit in Ufernähe (ca. 55 m zur Angelstrecke).",
+        "source": "OpenStreetMap",
+        "verified": false,
+        "icon": "P"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.190693,
+          48.990021
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "lauffen-slipway-3",
+        "type": "slipway",
+        "title": "Slipanlage",
+        "description": "Bootsrampe / Uferzugang (ca. 66 m zur Angelstrecke).",
+        "source": "OpenStreetMap",
+        "verified": false,
+        "icon": "⛵"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.152472,
+          49.035394
+        ]
+      }
     }
   ]
 }
