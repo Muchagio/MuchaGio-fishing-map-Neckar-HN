@@ -1,9 +1,9 @@
 {
   "meta": {
     "platform": "MuchaGio Fishing Maps",
-    "version": "2.6.0",
+    "version": "2.6.1",
     "buildDate": "2026-07-29",
-    "release": "PHASE 3 · WASSERSTÄNDE (PegelOnline) + SW network-first",
+    "release": "PHASE 3 · Abschnitts-Nadeln exakt auf Strecke",
     "dataDisclaimer": "Orientierungsdarstellung. Maßgeblich sind die offiziellen Hege6-Unterlagen, Beschilderungen und Bestimmungen vor Ort. Grüne Linien zeigen die Gewässergeometrie, jedoch keine zentimetergenau vermessenen Ufer- oder Rechtsgrenzen."
   },
   "map": {
@@ -213,8 +213,8 @@
       "region": "Neckar",
       "waterType": "river",
       "center": [
-        49.1485,
-        9.2014
+        49.14063,
+        9.200848
       ],
       "zoom": 15,
       "officialUrl": "https://www.hege6.de/unser-gew%C3%A4sser/oberwasser-hn-b%C3%B6ckingen/",
@@ -253,8 +253,8 @@
       "region": "Neckar",
       "waterType": "canal",
       "center": [
-        49.1125,
-        9.1789
+        49.11106,
+        9.156714
       ],
       "zoom": 14,
       "officialUrl": "https://www.hege6.de/unser-gew%C3%A4sser/kanal-horkheim/",
@@ -301,8 +301,8 @@
       "region": "Neckar",
       "waterType": "river",
       "center": [
-        49.0475,
-        9.147
+        49.00696,
+        9.15277
       ],
       "zoom": 12,
       "officialUrl": "https://www.hege6.de/unser-gew%C3%A4sser/neckar-bei-lauffen/",
@@ -337,8 +337,8 @@
       "region": "Enz",
       "waterType": "river",
       "center": [
-        49.001,
-        9.1445
+        49.005536,
+        9.146933
       ],
       "zoom": 16,
       "officialUrl": "https://www.hege6.de/unser-gew%C3%A4sser/m%C3%BCndung-enz-besigheim/",
