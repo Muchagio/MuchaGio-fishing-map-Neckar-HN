@@ -1,9 +1,9 @@
 {
   "meta": {
     "platform": "MuchaGio Fishing Maps",
-    "version": "2.2.0",
+    "version": "2.3.0",
     "buildDate": "2026-07-29",
-    "release": "PHASE 2 · STRECKEN ZUGESCHNITTEN (km-genau, OSM Vollauflösung)",
+    "release": "PHASE 3 · TIEFEN/SEEKARTE (Inland-ENC WMS der WSV)",
     "dataDisclaimer": "Orientierungsdarstellung. Maßgeblich sind die offiziellen Hege6-Unterlagen, Beschilderungen und Bestimmungen vor Ort. Grüne Linien zeigen die Gewässergeometrie, jedoch keine zentimetergenau vermessenen Ufer- oder Rechtsgrenzen."
   },
   "map": {
@@ -46,6 +46,25 @@
       "legend": "Gewässergeometrie innerhalb des offiziellen Orientierungsraums",
       "defaultVisible": true,
       "opacityControl": true
+    },
+    {
+      "id": "depth_ienc",
+      "label": "Seekarte / Tiefen (WSV)",
+      "group": "Gewässer",
+      "source": "wms",
+      "geometry": "raster",
+      "colorVar": "--layer-information",
+      "icon": "≈",
+      "legend": "Amtliche Inland-ENC der WSV (Fahrrinne, Tiefen, Bauwerke) – nicht zur Navigation",
+      "defaultVisible": false,
+      "wms": {
+        "url": "https://via.bund.de/wsv/ienc/wms",
+        "layers": "IENC",
+        "format": "image/png",
+        "transparent": true,
+        "version": "1.3.0",
+        "attribution": "© WSV / GDWS – Inland ENC"
+      }
     },
     {
       "id": "review_areas",

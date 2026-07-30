@@ -55,8 +55,27 @@ export class LayerManager {
     for (const water of this.registry.waters) {
       await this.loadWater(water); // sequential keeps ordering + eases rate limits
     }
+    this.loadServices(); // global WMS/overlay layers (e.g. official depth charts)
     this.applyInitialVisibility();
     return this.bounds;
+  }
+
+  // Registry-declared WMS services become toggleable, non-per-water layers.
+  loadServices() {
+    for (const def of this.registry.layerTypes) {
+      if (def.source !== 'wms' || !def.wms) continue;
+      const w = def.wms;
+      const layer = L.tileLayer.wms(w.url, {
+        layers: w.layers,
+        format: w.format || 'image/png',
+        transparent: w.transparent !== false,
+        version: w.version || '1.3.0',
+        attribution: w.attribution || '',
+        opacity: w.opacity ?? 1,
+      });
+      this.groupFor(def.id).addLayer(layer);
+      this.addCount(def.id, 1);
+    }
   }
 
   async loadWater(water) {

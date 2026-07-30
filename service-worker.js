@@ -12,7 +12,7 @@
  */
 'use strict';
 
-const CACHE_VERSION = 'v2.2.0';
+const CACHE_VERSION = 'v2.3.0';
 const STATIC_CACHE = `muchagio-static-${CACHE_VERSION}`;
 const TILE_CACHE = `muchagio-tiles-${CACHE_VERSION}`;
 const TILE_CACHE_LIMIT = 600;
