@@ -1,9 +1,9 @@
 {
   "meta": {
     "platform": "MuchaGio Fishing Maps",
-    "version": "2.3.0",
+    "version": "2.4.0",
     "buildDate": "2026-07-29",
-    "release": "PHASE 3 · TIEFEN/SEEKARTE (Inland-ENC WMS der WSV)",
+    "release": "PHASE 3 · TIEFE ANTIPPEN (GetFeatureInfo) + Seekarte",
     "dataDisclaimer": "Orientierungsdarstellung. Maßgeblich sind die offiziellen Hege6-Unterlagen, Beschilderungen und Bestimmungen vor Ort. Grüne Linien zeigen die Gewässergeometrie, jedoch keine zentimetergenau vermessenen Ufer- oder Rechtsgrenzen."
   },
   "map": {

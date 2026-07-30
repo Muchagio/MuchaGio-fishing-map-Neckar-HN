@@ -8,6 +8,7 @@ import { STORAGE } from './core/constants.js';
 import { createMap, enableLocate } from './map/mapController.js';
 import { BasemapManager } from './map/basemaps.js';
 import { LayerManager } from './layers/layerManager.js';
+import { enableDepthQuery } from './layers/depthQuery.js';
 import { initDialogs } from './ui/dialogs.js';
 import { initUI } from './ui/ui.js';
 import { registerServiceWorker, initInstallPrompt } from './pwa/register.js';
@@ -50,6 +51,15 @@ async function boot() {
 
     const locate = enableLocate(map, { onError: () => alert(t('locate.error')) });
     document.getElementById('locateButton').addEventListener('click', locate);
+
+    // Tap-to-depth on the official WSV depth chart layer.
+    const depthDef = registry.layerTypes.find((l) => l.id === 'depth_ienc' && l.wms);
+    if (depthDef) {
+      enableDepthQuery(map, {
+        isActive: () => layerManager.isVisible('depth_ienc'),
+        wms: depthDef.wms,
+      });
+    }
 
     // Runtime status for the info dialog.
     const activeTypes = layerManager.activeTypeDefs().length;
