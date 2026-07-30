@@ -8,13 +8,16 @@ function comma(x) {
   return String(x).replace('.', ',');
 }
 
-function formatDepth(text) {
-  const d1 = text.match(/Tiefenbereichswert 1:\s*([\d.]+)/i) || text.match(/DRVAL1[^\d-]*([\d.]+)/i);
-  const d2 = text.match(/Tiefenbereichswert 2:\s*([\d.]+)/i) || text.match(/DRVAL2[^\d-]*([\d.]+)/i);
+function formatDepth(raw) {
+  // Strip HTML tags / entities so labels and values sit next to each other,
+  // then match tolerantly (the service separates label/value with tabs or tags).
+  const text = raw.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ');
+  const d1 = text.match(/Tiefenbereichswert\s*1[^\d-]*([\d.]+)/i) || text.match(/DRVAL1[^\d-]*([\d.]+)/i);
+  const d2 = text.match(/Tiefenbereichswert\s*2[^\d-]*([\d.]+)/i) || text.match(/DRVAL2[^\d-]*([\d.]+)/i);
   if (d1 && d2) {
     return `<div class="popup-title">Tiefe hier</div><div class="popup-copy"><b>${comma(d1[1])} – ${comma(d2[1])} m</b><br><span class="popup-meta">Amtliche Inland-ENC (WSV) · nur Orientierung, nicht zur Navigation</span></div>`;
   }
-  const sounding = text.match(/(?:Lotung|Tiefe|SOUNDG)[^\d-]*([\d.]+)\s*m/i);
+  const sounding = raw.replace(/<[^>]+>/g, ' ').match(/(?:Lotung|Tiefe|SOUNDG)[^\d-]*([\d.]+)\s*m/i);
   if (sounding) {
     return `<div class="popup-title">Tiefe hier</div><div class="popup-copy"><b>ca. ${comma(sounding[1])} m</b><br><span class="popup-meta">Amtliche Inland-ENC (WSV)</span></div>`;
   }
@@ -41,7 +44,7 @@ export function enableDepthQuery(map, { isActive, wms }) {
       BBOX: [sw.x, sw.y, ne.x, ne.y].join(','),
       WIDTH: size.x, HEIGHT: size.y,
       I: Math.round(pixel.x), J: Math.round(pixel.y),
-      INFO_FORMAT: 'text/plain', FEATURE_COUNT: '8', STYLES: '',
+      INFO_FORMAT: 'text/html', FEATURE_COUNT: '8', STYLES: '',
     });
 
     popup.setLatLng(event.latlng).setContent('Tiefe wird abgefragt …').openOn(map);
